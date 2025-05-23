@@ -1,0 +1,23 @@
+.rt-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  &-nav-bar {
+    background-color: aliceblue;
+  }
+
+  &-header {
+    background-color: aliceblue;
+  }
+
+  &-body {
+    flex: 1;
+    overflow: scroll;
+    background-color: aqua;
+  }
+
+  &-footer {
+    background-color: aliceblue;
+  }
+}

@@ -1,0 +1,23 @@
+.custom-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20rpx 30rpx;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 9999;
+
+  &.show {
+    opacity: 1;
+  }
+
+  .toast-message {
+    font-size: 28rpx;
+  }
+}

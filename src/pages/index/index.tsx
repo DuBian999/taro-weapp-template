@@ -1,15 +1,14 @@
-import { Text, View } from '@tarojs/components';
-import { useLoad } from '@tarojs/taro';
+import TRLayout from '@/components/TRLayout/index';
 
-export default function Index() {
-  useLoad(() => {
-    console.log('Page loaded.');
-  });
-
+const Index = () => {
   return (
-    <View className='index'>
-      <Text>Hello world!</Text>
-      <View></View>
-    </View>
+    <TRLayout
+      title='首页'
+      headerContent={<>headerContent</>}
+      bodyContent={<>bodyContent</>}
+      footerContent={<>footerContent</>}
+    />
   );
-}
+};
+
+export default Index;

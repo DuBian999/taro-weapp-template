@@ -17,12 +17,10 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "baseUrl": ".",
     "paths": {
-      // TS5090 leading './'
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["./src", "./types", "./config"],
