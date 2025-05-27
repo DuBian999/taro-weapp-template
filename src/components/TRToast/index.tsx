@@ -1,18 +1,19 @@
 import { mergeClassNames } from '@/utils/common';
 import { Text, View } from '@tarojs/components';
-import { render } from '@tarojs/react';
+import { render, unmountComponentAtNode } from '@tarojs/react';
 import { document, TaroElement } from '@tarojs/runtime';
 import { getCurrentPages } from '@tarojs/taro';
 import React, { useEffect, useState } from 'react';
 import style from './index.module.scss';
-
-let toastContainer: TaroElement | null;
 
 // 组件 Props
 interface IProps {
   message: string;
   duration?: number;
 }
+
+// 使用 WeakMap 存储页面与容器的映射关系
+const pageContainers = new WeakMap<object, TaroElement>();
 
 const CustomToast = ({ message, duration = 2000 }: IProps) => {
   const [visible, setVisible] = useState(false);
@@ -36,19 +37,41 @@ const CustomToast = ({ message, duration = 2000 }: IProps) => {
   );
 };
 
-const RenderToast = (message: string) => {
-  const currentPages = getCurrentPages();
-  const currentPage = currentPages[currentPages.length - 1]; // 获取当前页面对象
-  const path = currentPage.$taroPath;
-  const pageElement = document.getElementById(path);
-  if (!toastContainer) {
-    toastContainer = document.createElement('view');
-    pageElement!.appendChild(toastContainer);
+const getPageContainer = () => {
+  const currentPage = getCurrentPages().pop();
+  if (!currentPage) return null;
+
+  // 如果已经存在容器则直接返回
+  if (pageContainers.has(currentPage)) {
+    return pageContainers.get(currentPage);
   }
-  // 通过key值强制重新挂载组件
+
+  // 创建新的容器
+  const container = document.createElement('view');
+  const pageElement = document.getElementById(currentPage.$taroPath);
+  pageElement?.appendChild(container);
+
+  // 监听页面卸载事件清理容器
+  const originalOnUnload = currentPage.onUnload;
+  currentPage.onUnload = function () {
+    pageContainers.delete(currentPage);
+    unmountComponentAtNode(container);
+    container.remove();
+    originalOnUnload?.call(this);
+  };
+
+  pageContainers.set(currentPage, container);
+  return container;
+};
+
+const RenderToast = (message: string) => {
+  const container = getPageContainer();
+  if (!container) return;
+  // 清理已有 Toast
+  unmountComponentAtNode(container);
   render(
     React.createElement(CustomToast, { message, key: Date.now().toString() }),
-    toastContainer,
+    container,
     () => {}
   );
 };
