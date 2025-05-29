@@ -1,14 +1,15 @@
 import { defineConfig, type UserConfigExport } from '@tarojs/cli';
-import path from 'path';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import devConfig from './dev';
 import prodConfig from './prod';
+import path from 'path';
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig<'vite'>(async (merge) => {
-  const baseConfig: UserConfigExport<'vite'> = {
-    projectName: 'B2M-Vite',
-    date: '2025-5-22',
-    designWidth: 750,
+export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
+  const baseConfig: UserConfigExport<'webpack5'> = {
+    projectName: 'taro-template',
+    date: '2025-5-29',
+    designWidth: 375,
     deviceRatio: {
       640: 2.34 / 2,
       750: 1,
@@ -17,7 +18,7 @@ export default defineConfig<'vite'>(async (merge) => {
     },
     sourceRoot: 'src',
     alias: {
-      '@': path.resolve(__dirname, '../src'),
+      '@': path.resolve(__dirname, './src'),
     },
     // 打包-文件输出路径
     outputRoot: `dist/${process.env.NODE_ENV}`,
@@ -29,15 +30,21 @@ export default defineConfig<'vite'>(async (merge) => {
     },
     framework: 'react',
     compiler: {
-      type: 'vite',
+      type: 'webpack5',
       prebundle: {
         enable: false,
       },
+    },
+    cache: {
+      enable: false, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },
     mini: {
       postcss: {
         pxtransform: {
           enable: true,
+          config: {
+            selectorBlackList: ['nut-'],
+          },
         },
         cssModules: {
           enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
@@ -47,11 +54,17 @@ export default defineConfig<'vite'>(async (merge) => {
           },
         },
       },
+      webpackChain(chain) {
+        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
+      },
     },
     h5: {
       publicPath: '/',
       staticDirectory: 'static',
-
+      output: {
+        filename: 'js/[name].[hash:8].js',
+        chunkFilename: 'js/[name].[chunkhash:8].js',
+      },
       miniCssExtractPluginOption: {
         ignoreOrder: true,
         filename: 'css/[name].[hash].css',
@@ -70,6 +83,9 @@ export default defineConfig<'vite'>(async (merge) => {
           },
         },
       },
+      webpackChain(chain) {
+        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
+      },
     },
     rn: {
       appName: 'taroDemo',
@@ -80,9 +96,6 @@ export default defineConfig<'vite'>(async (merge) => {
       },
     },
   };
-
-  process.env.BROWSERSLIST_ENV = process.env.NODE_ENV;
-
   if (process.env.NODE_ENV === 'development') {
     // 本地开发构建配置（不混淆压缩）
     return merge({}, baseConfig, devConfig);
