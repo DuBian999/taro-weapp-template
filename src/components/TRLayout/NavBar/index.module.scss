@@ -3,13 +3,14 @@
   align-items: center;
   flex-direction: row;
   width: 100%;
+  padding-left: 16px;
 
   .arrow-left {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 24rpx;
+    margin-right: 4px;
   }
   /* 标题居中布局 */
   .title {
@@ -20,7 +21,6 @@
     font-weight: 500;
     font-size: 36rpx;
     color: #282f32;
-    margin-left: 12rpx;
   }
 
   /* 胶囊右侧留空区域 */

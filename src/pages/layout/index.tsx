@@ -1,13 +1,33 @@
 import TRLayout from '@/components/TRLayout/index';
 import { View } from '@tarojs/components';
 import style from './index.module.scss';
+import { SearchBar, Button } from '@nutui/nutui-react-taro';
 
 const Index = () => {
   return (
     <>
       <TRLayout
         title='自定义Layout布局'
-        bodyContent={<View className={style['home-container']}></View>}
+        headerContent={
+          <SearchBar
+            placeholder='麻辣烫'
+            rightIn='搜索'
+          />
+        }
+        bodyContent={
+          <View className={style['home-container']}>
+            <Button type='primary'>测试123</Button>
+            <Button type='danger'>测试123</Button>
+          </View>
+        }
+        footerContent={
+          <Button
+            block
+            type='primary'
+          >
+            确认完成
+          </Button>
+        }
       />
     </>
   );
