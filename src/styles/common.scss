@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+}
+
+page {
+  /* flex */
+  .flx-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flx-start {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .flx-end {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .flx-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flx-justify-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .flx-justify-around {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .flx-align-center {
+    display: flex;
+    align-items: center;
+  }
+
+  .flx-align-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  /* 外边距、内边距全局样式 */
+  @for $i from 0 through 100 {
+    .mt-#{$i} {
+      margin-top: #{$i}rpx !important;
+    }
+
+    .mr-#{$i} {
+      margin-right: #{$i}rpx !important;
+    }
+
+    .mb-#{$i} {
+      margin-bottom: #{$i}rpx !important;
+    }
+
+    .ml-#{$i} {
+      margin-left: #{$i}rpx !important;
+    }
+
+    .m-#{$i} {
+      margin: #{$i}rpx !important;
+    }
+
+    .pt-#{$i} {
+      padding-top: #{$i}rpx !important;
+    }
+
+    .pr-#{$i} {
+      padding-right: #{$i}rpx !important;
+    }
+
+    .pb-#{$i} {
+      padding-bottom: #{$i}rpx !important;
+    }
+
+    .pl-#{$i} {
+      padding-left: #{$i}rpx !important;
+    }
+
+    .p-#{$i} {
+      padding: #{$i}rpx !important;
+    }
+  }
+}

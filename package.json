@@ -44,6 +44,7 @@
     "@babel/runtime": "^7.21.5",
     "@nutui/icons-react-taro": "^3.0.1",
     "@nutui/nutui-react-taro": "^3.0.12",
+    "@rematch/core": "^2.2.0",
     "@tarojs/components": "4.1.1",
     "@tarojs/helper": "4.1.1",
     "@tarojs/plugin-framework-react": "4.1.1",
@@ -59,8 +60,10 @@
     "@tarojs/runtime": "4.1.1",
     "@tarojs/shared": "4.1.1",
     "@tarojs/taro": "4.1.1",
+    "dayjs": "^1.11.13",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

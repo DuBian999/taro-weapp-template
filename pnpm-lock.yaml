@@ -17,6 +17,9 @@ importers:
       '@nutui/nutui-react-taro':
         specifier: ^3.0.12
         version: 3.0.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@rematch/core':
+        specifier: ^2.2.0
+        version: 2.2.0(redux@5.0.1)
       '@tarojs/components':
         specifier: 4.1.1
         version: 4.1.1(@tarojs/helper@4.1.1(@swc/helpers@0.5.17))(@types/react@18.3.23)(html-webpack-plugin@5.6.3(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17))))(postcss@8.5.4)(react@18.3.1)(rollup@3.29.5)(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17))))(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17)))
@@ -62,12 +65,18 @@ importers:
       '@tarojs/taro':
         specifier: 4.1.1
         version: 4.1.1(@tarojs/components@4.1.1(@tarojs/helper@4.1.1(@swc/helpers@0.5.17))(@types/react@18.3.23)(html-webpack-plugin@5.6.3(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17))))(postcss@8.5.4)(react@18.3.1)(rollup@3.29.5)(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17))))(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17))))(@tarojs/helper@4.1.1(@swc/helpers@0.5.17))(@tarojs/shared@4.1.1)(@types/react@18.3.23)(html-webpack-plugin@5.6.3(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17))))(postcss@8.5.4)(rollup@3.29.5)(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17))))(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.17)))
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       react:
         specifier: ^18.0.0
         version: 18.3.1
       react-dom:
         specifier: ^18.0.0
         version: 18.3.1(react@18.3.1)
+      react-redux:
+        specifier: ^9.2.0
+        version: 9.2.0(@types/react@18.3.23)(react@18.3.1)(redux@5.0.1)
     devDependencies:
       '@babel/core':
         specifier: ^7.8.0
@@ -1334,6 +1343,12 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
 
+  '@rematch/core@2.2.0':
+    resolution: {integrity: sha512-Sj3nC/2X+bOBZeOf4jdJ00nhCcx9wLbVK9SOs6eFR4Y1qKXqRY0hGigbQgfTpCdjRFlwTHHfN3m41MlNvMhDgw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      redux: '>=4'
+
   '@rnx-kit/babel-preset-metro-react-native@1.1.8':
     resolution: {integrity: sha512-8DotuBK1ZgV0H/tmCmtW/3ofA7JR/8aPqSu9lKnuqwBfq4bxz+w1sMyfFl89m4teWlkhgyczWBGD6NCLqTgi9A==}
     peerDependencies:
@@ -1964,6 +1979,9 @@ packages:
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
+
+  '@types/use-sync-external-store@0.0.6':
+    resolution: {integrity: sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg==}
 
   '@types/webpack-env@1.18.8':
     resolution: {integrity: sha512-G9eAoJRMLjcvN4I08wB5I7YofOb/kaJNd5uoCMX+LbKXTPCF+ZIHuqTnFaK9Jz1rgs035f9JUPUhNFtqgucy/A==}
@@ -2944,6 +2962,9 @@ packages:
   datauri@3.0.0:
     resolution: {integrity: sha512-NeDFuUPV1YCpCn8MUIcDk1QnuyenUHs7f4Q5P0n9FFA0neKFrfEH9esR+YMW95BplbYfdmjbs0Pl/ZGAaM2QHQ==}
     engines: {node: '>= 8'}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -5772,6 +5793,18 @@ packages:
     peerDependencies:
       react: ^18.2.0
 
+  react-redux@9.2.0:
+    resolution: {integrity: sha512-ROY9fvHhwOD9ySfrF0wmvu//bKCQ6AeZZq1nJNtbDC+kk5DuSuNX/n6YWYF/SYy7bSba4D4FSz8DJeKY/S/r+g==}
+    peerDependencies:
+      '@types/react': ^18.2.25 || ^19
+      react: ^18.0 || ^19
+      redux: ^5.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      redux:
+        optional: true
+
   react-refresh@0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
     engines: {node: '>=0.10.0'}
@@ -5815,6 +5848,9 @@ packages:
   redent@3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
     engines: {node: '>=8'}
+
+  redux@5.0.1:
+    resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
 
   reflect.getprototypeof@1.0.10:
     resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
@@ -6800,6 +6836,11 @@ packages:
   url-to-options@1.0.1:
     resolution: {integrity: sha512-0kQLIzG4fdk/G5NONku64rSH/x32NOA39LVQqlK8Le6lvTF6GGRJpqaQFGgU+CLwySIqBSMdwYM0sYcW9f6P4A==}
     engines: {node: '>= 4'}
+
+  use-sync-external-store@1.5.0:
+    resolution: {integrity: sha512-Rb46I4cGGVBmjamjphe8L/UnvJD+uPPtTkNvX5mZgqdbavhI4EbgIWJiIHXJ8bc/i9EQGPRh4DwEURJ552Do0A==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -8307,6 +8348,10 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
+  '@rematch/core@2.2.0(redux@5.0.1)':
+    dependencies:
+      redux: 5.0.1
+
   '@rnx-kit/babel-preset-metro-react-native@1.1.8(@babel/core@7.27.3)(@babel/plugin-transform-typescript@7.27.1(@babel/core@7.27.3))(@babel/runtime@7.27.3)':
     dependencies:
       '@babel/core': 7.27.3
@@ -9045,6 +9090,8 @@ snapshots:
       '@types/node': 18.19.105
 
   '@types/unist@3.0.3': {}
+
+  '@types/use-sync-external-store@0.0.6': {}
 
   '@types/webpack-env@1.18.8': {}
 
@@ -10256,6 +10303,8 @@ snapshots:
     dependencies:
       image-size: 0.8.3
       mimer: 1.1.0
+
+  dayjs@1.11.13: {}
 
   debug@2.6.9:
     dependencies:
@@ -13396,6 +13445,15 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
+  react-redux@9.2.0(@types/react@18.3.23)(react@18.3.1)(redux@5.0.1):
+    dependencies:
+      '@types/use-sync-external-store': 0.0.6
+      react: 18.3.1
+      use-sync-external-store: 1.5.0(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.23
+      redux: 5.0.1
+
   react-refresh@0.11.0: {}
 
   react-transition-group@4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
@@ -13454,6 +13512,8 @@ snapshots:
     dependencies:
       indent-string: 4.0.0
       strip-indent: 3.0.0
+
+  redux@5.0.1: {}
 
   reflect.getprototypeof@1.0.10:
     dependencies:
@@ -14589,6 +14649,10 @@ snapshots:
       requires-port: 1.0.0
 
   url-to-options@1.0.1: {}
+
+  use-sync-external-store@1.5.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   util-deprecate@1.0.2: {}
 
