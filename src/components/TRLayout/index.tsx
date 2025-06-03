@@ -9,7 +9,7 @@ interface LayoutProps {
   headerContent?: ReactNode;
   bodyContent: ReactNode;
   footerContent?: ReactNode;
-  title: string | ReactNode;
+  title?: string | ReactNode;
   showTitle?: boolean;
   contentStyle?: React.CSSProperties;
   hideArrow?: boolean;
@@ -30,8 +30,8 @@ const TRLayout: React.FC<LayoutProps> = ({
 }) => {
   return (
     <View
-      className={style['rt-layout']}
-      id='rt-layout'
+      className={style['tr-layout']}
+      id='tr-layout'
     >
       {/* 顶部安全区域 */}
       <SafeArea position='top' />
@@ -45,7 +45,7 @@ const TRLayout: React.FC<LayoutProps> = ({
       {/* 头部内容 */}
       {headerContent && (
         <View
-          className={style['rt-layout-header']}
+          className={style['tr-layout-header']}
           style={{
             padding: headerPadding,
           }}
@@ -56,7 +56,7 @@ const TRLayout: React.FC<LayoutProps> = ({
 
       {/* 主体内容区域 */}
       <View
-        className={style['rt-layout-body']}
+        className={style['tr-layout-body']}
         style={{
           padding: bodyPadding,
         }}
@@ -67,7 +67,7 @@ const TRLayout: React.FC<LayoutProps> = ({
       {/* 底部内容 */}
       {footerContent && (
         <View
-          className={style['rt-layout-footer']}
+          className={style['tr-layout-footer']}
           style={{
             padding: footerPadding,
           }}

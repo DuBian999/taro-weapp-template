@@ -17,13 +17,8 @@ const list = [
   },
 
   {
-    title: 'OSS上传',
-    url: '',
-  },
-
-  {
-    title: '文件流及压缩文件写入',
-    url: '',
+    title: '自定义Select',
+    url: '/pages/multiSelect/index',
   },
 ];
 
