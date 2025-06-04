@@ -7,7 +7,7 @@ const Index = () => {
   return (
     <>
       <TRLayout
-        title='二次确认弹框hooks'
+        title='示例-确认弹框hooks'
         bodyContent={
           <Row>
             <Col span='8'>

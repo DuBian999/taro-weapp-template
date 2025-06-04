@@ -28,12 +28,12 @@ const TRMultiSelect: React.FC<NutSelectProps> = (props) => {
   const [tempSelectedValues, setTempSelectedValues] = useState<string[]>(value);
   const [searchValue, setSearchValue] = useState('');
 
-  // 修复问题：只在弹窗打开时初始化临时状态
   useEffect(() => {
     if (visible) {
       setTempSelectedValues(selectedValues);
       setSearchValue('');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]); // 只依赖 visible
 
   // 同步默认值变化到最终选中值
@@ -50,16 +50,16 @@ const TRMultiSelect: React.FC<NutSelectProps> = (props) => {
   };
 
   // 移除单个标签（仅移除最终选中的值）
-  const removeTag = (value: string | number, e: ITouchEvent) => {
+  const removeTag = (item: string | number, e: ITouchEvent) => {
     e.stopPropagation();
-    const newValues = selectedValues.filter((v) => v !== value);
+    const newValues = selectedValues.filter((v) => v !== item);
     setSelectedValues(newValues);
     onChange?.(newValues);
   };
 
   // 获取已选中的标签文本（基于最终选中的值）
-  const selectedLabels = selectedValues.map((value) => {
-    const option = options.find((opt) => opt.value === value);
+  const selectedLabels = selectedValues.map((item) => {
+    const option = options.find((opt) => opt.value === item);
     return option?.label || '';
   });
 
@@ -145,7 +145,6 @@ const TRMultiSelect: React.FC<NutSelectProps> = (props) => {
             value={searchValue}
             onChange={(e) => setSearchValue(e)}
             className={styles.searchInput}
-            focus={visible}
           />
         </View>
 

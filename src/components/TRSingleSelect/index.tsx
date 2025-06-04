@@ -1,10 +1,9 @@
 import { ArrowDown, ArrowUp, Close, IconFont } from '@nutui/icons-react-taro';
+import type { SimpleValue } from '@nutui/nutui-react-taro';
 import { Input, Popup, Radio, RadioGroup, Tag } from '@nutui/nutui-react-taro';
 import { ScrollView, Text, View } from '@tarojs/components';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-
-import type { SimpleValue } from '@nutui/nutui-react-taro';
 
 interface Option {
   value: SimpleValue;
@@ -36,7 +35,7 @@ const TRSingleSelect: React.FC<NutRadioSelectProps> = (props) => {
       setTempSelectedValue(selectedValue);
       setSearchValue('');
     }
-  }, [visible]);
+  }, [selectedValue, visible]);
 
   // 同步外部值变化
   useEffect(() => {
@@ -114,7 +113,6 @@ const TRSingleSelect: React.FC<NutRadioSelectProps> = (props) => {
             value={searchValue}
             onChange={(e) => setSearchValue(e)}
             className={styles.searchInput}
-            focus={visible}
           />
         </View>
 
@@ -128,7 +126,7 @@ const TRSingleSelect: React.FC<NutRadioSelectProps> = (props) => {
             <RadioGroup
               value={tempSelectedValue as SimpleValue}
               className={styles.radioGroup}
-              onChange={(value) => handleRadioChange(value)}
+              onChange={(v) => handleRadioChange(v)}
             >
               {filteredOptions.map((option) => (
                 <Radio

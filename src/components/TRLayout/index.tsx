@@ -1,8 +1,8 @@
+import { SafeArea } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
 import React, { ReactNode } from 'react';
 import NavBar from './NavBar/index';
 import style from './index.module.scss';
-import { SafeArea } from '@nutui/nutui-react-taro';
 
 // Layout 组件
 interface LayoutProps {
