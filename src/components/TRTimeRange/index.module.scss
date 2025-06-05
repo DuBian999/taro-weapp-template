@@ -1,0 +1,17 @@
+.tr-time-range {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+
+  .time-picker {
+    padding: 8rpx 12rpx;
+    border: 1px solid #eee;
+    border-radius: 4rpx;
+    text-align: center;
+  }
+
+  .separator {
+    margin: 0 2rpx;
+    color: #999;
+  }
+}
