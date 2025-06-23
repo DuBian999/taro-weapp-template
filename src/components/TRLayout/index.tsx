@@ -11,11 +11,11 @@ interface LayoutProps {
   footerContent?: ReactNode;
   title?: string | ReactNode;
   showTitle?: boolean;
-  contentStyle?: React.CSSProperties;
   hideArrow?: boolean;
-  headerPadding?: string;
-  bodyPadding?: string;
-  footerPadding?: string;
+
+  headerContentStyle?: React.CSSProperties;
+  bodyContentStyle?: React.CSSProperties;
+  footerContentStyle?: React.CSSProperties;
 }
 
 const TRLayout: React.FC<LayoutProps> = ({
@@ -24,9 +24,15 @@ const TRLayout: React.FC<LayoutProps> = ({
   footerContent,
   title,
   hideArrow,
-  headerPadding = '16px',
-  bodyPadding = '16px',
-  footerPadding = '16px',
+  headerContentStyle = {
+    padding: '16px',
+  },
+  bodyContentStyle = {
+    padding: '16px',
+  },
+  footerContentStyle = {
+    padding: '16px',
+  },
 }) => {
   return (
     <View
@@ -46,9 +52,7 @@ const TRLayout: React.FC<LayoutProps> = ({
       {headerContent && (
         <View
           className={style['tr-layout-header']}
-          style={{
-            padding: headerPadding,
-          }}
+          style={headerContentStyle}
         >
           {headerContent}
         </View>
@@ -57,9 +61,7 @@ const TRLayout: React.FC<LayoutProps> = ({
       {/* 主体内容区域 */}
       <View
         className={style['tr-layout-body']}
-        style={{
-          padding: bodyPadding,
-        }}
+        style={bodyContentStyle}
       >
         {bodyContent}
       </View>
@@ -68,17 +70,13 @@ const TRLayout: React.FC<LayoutProps> = ({
       {footerContent && (
         <View
           className={style['tr-layout-footer']}
-          style={{
-            padding: footerPadding,
-          }}
+          style={footerContentStyle}
         >
           {footerContent}
-          <SafeArea position='bottom' />
         </View>
       )}
 
-      {/* 如果没有底部内容，确保底部安全区域仍存在 */}
-      {!footerContent && <SafeArea position='bottom' />}
+      <SafeArea position='bottom' />
     </View>
   );
 };

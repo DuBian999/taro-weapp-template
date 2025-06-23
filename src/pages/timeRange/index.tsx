@@ -34,37 +34,40 @@ const Index: React.FC = () => {
               </Button>
             }
           >
-            <Form.Item
-              label='活动时间'
-              name='timeRange'
-              rules={[
-                {
-                  required: true,
-                  message: '请选择完整的时间范围',
-                },
-                {
-                  validator: (_, value = []) => {
-                    const [start, end] = value;
-                    if (!start) {
-                      return Promise.reject('请选择开始时间');
-                    }
-                    if (!end) {
-                      return Promise.reject('请选择结束时间');
-                    }
-                    if (dayjs(end).isBefore(dayjs(start))) {
-                      return Promise.reject('结束时间不能早于开始时间');
-                    }
-                    return true;
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+              <Form.Item
+                key={item}
+                label='活动时间'
+                name={`timeRange${item}`}
+                rules={[
+                  {
+                    required: true,
+                    message: '请选择完整的时间范围',
                   },
-                  mnessage: '请输入正常的时间范围',
-                },
-              ]}
-            >
-              <TRTimeRange
-                type='datetime'
-                format='YYYY-MM-DD HH:mm:ss'
-              />
-            </Form.Item>
+                  {
+                    validator: (_, value = []) => {
+                      const [start, end] = value;
+                      if (!start) {
+                        return Promise.reject('请选择开始时间');
+                      }
+                      if (!end) {
+                        return Promise.reject('请选择结束时间');
+                      }
+                      if (dayjs(end).isBefore(dayjs(start))) {
+                        return Promise.reject('结束时间不能早于开始时间');
+                      }
+                      return true;
+                    },
+                    mnessage: '请输入正常的时间范围',
+                  },
+                ]}
+              >
+                <TRTimeRange
+                  type='datetime'
+                  format='YYYY-MM-DD HH:mm:ss'
+                />
+              </Form.Item>
+            ))}
           </Form>
 
           <Cell
@@ -78,6 +81,16 @@ const Index: React.FC = () => {
             }
           />
           <View>{JSON.stringify(timeRange)}</View>
+        </>
+      }
+      footerContent={
+        <>
+          <Button
+            block
+            type='warning'
+          >
+            测试
+          </Button>
         </>
       }
     />
