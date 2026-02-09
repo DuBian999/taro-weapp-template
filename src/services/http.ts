@@ -1,11 +1,17 @@
 import Taro from '@tarojs/taro';
-import interceptors from './interceptors';
 import { getUrl } from './baseUrl';
+import interceptors from './interceptors';
 
 interceptors.forEach((i) => Taro.addInterceptor(i));
 
+type Data<T> = {
+  code: string;
+  msg: string;
+  result: T;
+};
+
 class Http {
-  request(params: Taro.request.Option) {
+  request<T>(params: Taro.request.Option): Promise<Data<T>> {
     const { url } = params;
     const option = {
       ...params,
@@ -16,10 +22,10 @@ class Http {
       },
       url: getUrl(url),
     };
-    return Taro.request(option);
+    return Taro.request(option) as unknown as Promise<Data<T>>;
   }
 }
 
-const { request } = new Http();
+const { request: http } = new Http();
 export default Http;
-export { request };
+export { http };

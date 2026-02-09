@@ -1,3 +1,4 @@
+// 修改 interceptors.ts 文件
 import RenderToast from '@/components/TRToast';
 import { pageToLogin } from '@/utils/common';
 import Taro from '@tarojs/taro';
@@ -34,7 +35,7 @@ const handleUnauthorizedAccess = (message: string) => {
 };
 
 // 请求拦截
-const customInterceptor = (chain: Taro.Chain) => {
+const customInterceptor = <T>(chain: Taro.Chain): Promise<T> => {
   const requestParams = chain.requestParams;
 
   // 入队操作
@@ -43,7 +44,7 @@ const customInterceptor = (chain: Taro.Chain) => {
 
   return chain
     .proceed(requestParams)
-    .then((res) => {
+    .then((res: Taro.request.SuccessCallbackResult<any>) => {
       const { statusCode, data } = res;
 
       switch (statusCode) {
@@ -63,14 +64,7 @@ const customInterceptor = (chain: Taro.Chain) => {
           return Promise.reject('服务器异常');
 
         case HTTP_STATUS.SUCCESS:
-          const resType = Object.prototype.toString.call(data);
-          if (resType === '[object ArrayBuffer]') {
-            return data;
-          }
-          if (!data.success) {
-            return Promise.reject(data.errMessage);
-          }
-          return data;
+          return data as T;
 
         default:
           return Promise.reject('未知错误');

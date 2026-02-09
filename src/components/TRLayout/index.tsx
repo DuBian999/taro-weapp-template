@@ -1,39 +1,40 @@
+import { ArrowLeft } from '@nutui/icons-react-taro';
 import { SafeArea } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
+import { getMenuButtonBoundingClientRect, navigateBack } from '@tarojs/taro';
 import React, { ReactNode } from 'react';
-import NavBar from './NavBar/index';
 import style from './index.module.scss';
 
-// Layout 组件
-interface LayoutProps {
-  headerContent?: ReactNode;
-  bodyContent: ReactNode;
-  footerContent?: ReactNode;
-  title?: string | ReactNode;
-  showTitle?: boolean;
-  hideArrow?: boolean;
-
-  headerContentStyle?: React.CSSProperties;
-  bodyContentStyle?: React.CSSProperties;
-  footerContentStyle?: React.CSSProperties;
+interface LayoutContentProps {
+  style?: React.CSSProperties;
+  customRender?: ReactNode;
 }
 
-const TRLayout: React.FC<LayoutProps> = ({
-  headerContent,
-  bodyContent,
-  footerContent,
-  title,
-  hideArrow,
-  headerContentStyle = {
-    padding: '16px',
-  },
-  bodyContentStyle = {
-    padding: '16px',
-  },
-  footerContentStyle = {
-    padding: '16px',
-  },
-}) => {
+interface LayoutProps {
+  navBar: LayoutContentProps & {
+    title?: string | ReactNode;
+    showTitle?: boolean;
+    hideArrow?: boolean;
+    customRender?: (params: { top: number; height: number; width: number; right: number }) => ReactNode;
+  };
+  header: LayoutContentProps;
+  body: LayoutContentProps;
+  footer: LayoutContentProps;
+}
+
+const defaultContentStyle = {
+  padding: '16px',
+};
+
+const TRLayout: React.FC<LayoutProps> = ({ navBar, header, body, footer }) => {
+  // 微信-分享胶囊位置
+  const { top, height, width, right } = getMenuButtonBoundingClientRect();
+
+  const { title, hideArrow, style: navBarStyle = {}, customRender: NavBar } = navBar;
+  const { style: headerContentStyle = defaultContentStyle, customRender: Header } = header;
+  const { style: bodyContentStyle = defaultContentStyle, customRender: Body } = body;
+  const { style: footerContentStyle = defaultContentStyle, customRender: Footer } = footer;
+
   return (
     <View
       className={style['tr-layout']}
@@ -42,19 +43,49 @@ const TRLayout: React.FC<LayoutProps> = ({
       {/* 顶部安全区域 */}
       <SafeArea position='top' />
 
-      {/* 导航栏 */}
-      <NavBar
-        title={title}
-        hideArrow={hideArrow}
-      />
+      {
+        // 自定义导航栏 或者 默认导航栏
+        NavBar ? (
+          NavBar({ top, height, width, right })
+        ) : (
+          <View
+            className={style['custom-navbar']}
+            style={{
+              height: `${height}px`,
+              paddingTop: `${top}px`,
+              ...navBarStyle,
+            }}
+          >
+            {/* 返回按钮 */}
+            {!hideArrow && (
+              <View
+                className={style['arrow-left']}
+                onClick={() => navigateBack()}
+              >
+                <ArrowLeft size={20} />
+              </View>
+            )}
+            {/* 居中标题 */}
+            <View className={style['title']}>{title}</View>
+            {/* 胶囊占位区 */}
+            <View
+              style={{
+                width: `${width}px`,
+                height: `${height}px`,
+                marginRight: `calc(100% - ${right}px)`,
+              }}
+            />
+          </View>
+        )
+      }
 
       {/* 头部内容 */}
-      {headerContent && (
+      {Header && (
         <View
           className={style['tr-layout-header']}
           style={headerContentStyle}
         >
-          {headerContent}
+          {Header}
         </View>
       )}
 
@@ -63,16 +94,16 @@ const TRLayout: React.FC<LayoutProps> = ({
         className={style['tr-layout-body']}
         style={bodyContentStyle}
       >
-        {bodyContent}
+        {Body}
       </View>
 
       {/* 底部内容 */}
-      {footerContent && (
+      {Footer && (
         <View
           className={style['tr-layout-footer']}
           style={footerContentStyle}
         >
-          {footerContent}
+          {Footer}
         </View>
       )}
 
