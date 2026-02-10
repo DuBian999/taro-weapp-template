@@ -1,0 +1,25 @@
+/* 自定义导航条 */
+.nav-bar {
+  background-size: cover;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  .logo {
+    display: flex;
+    align-items: center;
+    height: 64rpx;
+    .logo-image {
+      width: 166rpx !important;
+      height: 39rpx !important;
+    }
+    .logo-text {
+      flex: 1;
+      line-height: 28rpx;
+      color: #fff;
+      margin: 2rpx 0 0 20rpx;
+      padding-left: 20rpx;
+      border-left: 1rpx solid #fff;
+      font-size: 26rpx;
+    }
+  }
+}

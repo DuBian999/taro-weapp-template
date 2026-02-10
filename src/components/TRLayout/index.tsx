@@ -11,15 +11,15 @@ interface LayoutContentProps {
 }
 
 interface LayoutProps {
-  navBar: LayoutContentProps & {
+  navBar?: LayoutContentProps & {
     title?: string | ReactNode;
     showTitle?: boolean;
     hideArrow?: boolean;
     customRender?: (params: { top: number; height: number; width: number; right: number }) => ReactNode;
   };
-  header: LayoutContentProps;
-  body: LayoutContentProps;
-  footer: LayoutContentProps;
+  header?: LayoutContentProps;
+  body?: LayoutContentProps;
+  footer?: LayoutContentProps;
 }
 
 const defaultContentStyle = {
@@ -30,10 +30,10 @@ const TRLayout: React.FC<LayoutProps> = ({ navBar, header, body, footer }) => {
   // 微信-分享胶囊位置
   const { top, height, width, right } = getMenuButtonBoundingClientRect();
 
-  const { title, hideArrow, style: navBarStyle = {}, customRender: NavBar } = navBar;
-  const { style: headerContentStyle = defaultContentStyle, customRender: Header } = header;
-  const { style: bodyContentStyle = defaultContentStyle, customRender: Body } = body;
-  const { style: footerContentStyle = defaultContentStyle, customRender: Footer } = footer;
+  const { title, hideArrow, style: navBarStyle = {}, customRender: NavBar } = navBar || {};
+  const { style: headerContentStyle = defaultContentStyle, customRender: Header } = header || {};
+  const { style: bodyContentStyle = defaultContentStyle, customRender: Body } = body || {};
+  const { style: footerContentStyle = defaultContentStyle, customRender: Footer } = footer || {};
 
   return (
     <View
