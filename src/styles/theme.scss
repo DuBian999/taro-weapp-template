@@ -1,10 +1,11 @@
 :root,
 page {
-  --primary: green;
+  --primary: #57bea0;
   --primary-disabled: rgb(160, 211, 160);
 
   --nutui-brand-stop-1: var(--primary);
   --nutui-brand-stop-2: var(--primary);
+  --nutui-color-primary: var(--primary);
   --nutui-color-primary-stop-1: var(--primary);
   --nutui-color-primary-stop-2: var(--primary);
   --nutui-button-primary-disabled: var(--primary-disabled);

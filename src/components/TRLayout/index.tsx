@@ -11,7 +11,8 @@ interface LayoutContentProps {
 }
 
 interface LayoutProps {
-  navBar?: LayoutContentProps & {
+  navBar?: {
+    style?: React.CSSProperties;
     title?: string | ReactNode;
     showTitle?: boolean;
     hideArrow?: boolean;
@@ -42,7 +43,6 @@ const TRLayout: React.FC<LayoutProps> = ({ navBar, header, body, footer }) => {
     >
       {/* 顶部安全区域 */}
       <SafeArea position='top' />
-
       {
         // 自定义导航栏 或者 默认导航栏
         NavBar ? (
