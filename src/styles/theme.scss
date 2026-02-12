@@ -1,8 +1,11 @@
 :root,
 page {
-  --nutui-brand-stop-1: green; // 渐变色起
-  --nutui-brand-stop-2: green; // 渐变色止
-  --nutui-color-primary: green;
-  --nutui-color-primary-stop1: green;
-  --nutui-color-primary-stop2: green;
+  --primary: green;
+  --primary-disabled: rgb(160, 211, 160);
+
+  --nutui-brand-stop-1: var(--primary);
+  --nutui-brand-stop-2: var(--primary);
+  --nutui-color-primary-stop-1: var(--primary);
+  --nutui-color-primary-stop-2: var(--primary);
+  --nutui-button-primary-disabled: var(--primary-disabled);
 }

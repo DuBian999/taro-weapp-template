@@ -42,8 +42,8 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.21.5",
-    "@nutui/icons-react-taro": "^3.0.1",
-    "@nutui/nutui-react-taro": "^3.0.12",
+    "@nutui/icons-react-taro": "3.0.2-cpp.3.beta.5",
+    "@nutui/nutui-react-taro": "3.0.18",
     "@rematch/core": "^2.2.0",
     "@tarojs/components": "4.1.1",
     "@tarojs/helper": "4.1.1",

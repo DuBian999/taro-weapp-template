@@ -1,5 +1,5 @@
 import store from '@/store';
-import '@/styles/common.scss';
+import '@/styles/index.scss';
 import { useDidHide, useDidShow } from '@tarojs/taro';
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';

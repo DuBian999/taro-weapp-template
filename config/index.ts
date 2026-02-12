@@ -40,8 +40,6 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     },
     sass: {
       resource: [path.resolve(__dirname, '..', 'src/styles/theme.scss')],
-      // 默认京东 APP 10.0主题 > @import "@nutui/nutui-react-taro/dist/styles/variables.scss";
-      // data: `@import "@nutui/nutui-react-taro/dist/styles/variables.scss";`,
     },
     mini: {
       postcss: {

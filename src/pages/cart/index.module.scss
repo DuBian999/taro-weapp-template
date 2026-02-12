@@ -1,3 +1,152 @@
-.home-container {
-  height: 100%;
+// 购物车列表
+.cart-list {
+  padding: 0 20rpx;
+
+  :global(.nut-swipe-right) {
+    height: 100% !important;
+  }
+  // 优惠提示
+  .tips {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin: 30rpx 10rpx;
+    font-size: 26rpx;
+    color: #666;
+  }
+
+  // 购物车商品
+  .goods {
+    display: flex;
+    padding: 20rpx;
+    border-radius: 10rpx;
+    background-color: #fff;
+    position: relative;
+
+    .navigator {
+      display: flex;
+    }
+
+    .checkbox {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80rpx;
+      height: 100%;
+
+      &::before {
+        content: '\e6cd';
+        font-family: 'erabbit' !important;
+        font-size: 40rpx;
+        color: #444;
+      }
+
+      &.checked::before {
+        content: '\e6cc';
+        color: #27ba9b;
+      }
+    }
+
+    .picture {
+      width: 170rpx;
+      height: 170rpx;
+    }
+
+    .meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 20rpx;
+    }
+
+    .name {
+      font-size: 26rpx;
+      color: #444;
+    }
+
+    .attrsText {
+      line-height: 1.8;
+      padding: 0 15rpx;
+      font-size: 24rpx;
+      align-self: flex-start;
+      border-radius: 4rpx;
+      color: #888;
+      background-color: #f7f7f8;
+    }
+
+    .price {
+      line-height: 1;
+      font-size: 26rpx;
+      color: #444;
+      margin-bottom: 2rpx;
+      color: #cf4444;
+
+      &::before {
+        content: '￥';
+        font-size: 80%;
+      }
+    }
+
+    // 商品数量
+    .count {
+      position: absolute;
+      bottom: 20rpx;
+      right: 20rpx;
+    }
+  }
+}
+
+// 吸底工具栏
+.toolbar {
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  box-sizing: content-box;
+
+  .all {
+    margin-left: 25rpx;
+    font-size: 14px;
+    color: #444;
+    display: flex;
+    align-items: center;
+  }
+
+  .all::before {
+    font-family: 'erabbit' !important;
+    content: '\e6cd';
+    font-size: 40rpx;
+    margin-right: 8rpx;
+  }
+
+  .checked::before {
+    content: '\e6cc';
+    color: #27ba9b;
+  }
+
+  .text {
+    margin-right: 8rpx;
+    margin-left: 32rpx;
+    color: #444;
+    font-size: 14px;
+  }
+
+  .amount {
+    font-size: 20px;
+    color: #cf4444;
+
+    &::before {
+      content: '￥';
+      font-size: 12px;
+    }
+  }
+
+  .button-grounp {
+    margin-left: auto;
+  }
 }
