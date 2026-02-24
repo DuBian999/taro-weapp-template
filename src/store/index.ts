@@ -1,18 +1,13 @@
-import { init, Models, RematchDispatch, RematchRootState } from '@rematch/core';
-import user from './user';
-import oss from './oss';
+// store/index.ts
+import { init, RematchDispatch, RematchRootState } from '@rematch/core';
+import models, { RootModel } from './models';
 
-const rootModel: RootModel = { user, oss };
-
-export interface RootModel extends Models<RootModel> {
-  user: typeof user;
-  oss: typeof oss;
-}
-
-const store = init({
-  models: rootModel,
+const store = init<RootModel>({
+  models,
 });
-export type AppStore = typeof store;
-export type AppDispatch = RematchDispatch<RootModel>;
-export type AppRootState = RematchRootState<RootModel>;
+
+export type Store = typeof store;
+export type Dispatch = RematchDispatch<RootModel>;
+export type RootState = RematchRootState<RootModel>;
+
 export default store;

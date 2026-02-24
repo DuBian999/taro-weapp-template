@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100rpx;
+
+  .logoPlaceholder {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 24px;
+  }
+
+  .brandName {
+    font-size: 36px;
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+// 自定义input样式，覆盖nutui默认内边距，保持设计统一
+.input {
+  margin-bottom: 20px;
+  background-color: #e2d9d93b;
+  border-radius: 8px;
+  font-size: 28px;
+}

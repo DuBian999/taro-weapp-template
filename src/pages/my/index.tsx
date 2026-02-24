@@ -1,5 +1,6 @@
 import GuessLike from '@/components/TRGuessLike';
 import TRLayout from '@/components/TRLayout/index';
+import useMemberStore from '@/hooks/useMemberStore';
 import { mergeClassNames } from '@/utils/common';
 import { Image, Navigator, Text, View } from '@tarojs/components';
 import style from './index.module.scss';
@@ -14,6 +15,8 @@ const orderTypes = [
 ];
 
 export default () => {
+  const { isLogin, member } = useMemberStore();
+
   return (
     <>
       <TRLayout
@@ -27,23 +30,23 @@ export default () => {
               }}
             >
               {/* 情况1：已登录 */}
-              {false ? (
+              {isLogin ? (
                 <View className={style['overview']}>
                   <Navigator
                     url='/pagesMember/profile/profile'
                     hoverClass='none'
                   >
                     <Image
-                      src='https://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-06/db628d42-88a7-46e7-abb8-659448c33081.png'
+                      src={
+                        member.avatar ||
+                        'https://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-06/db628d42-88a7-46e7-abb8-659448c33081.png'
+                      }
                       mode='aspectFill'
                       className={style['avatar']}
                     />
                   </Navigator>
                   <View className={style['meta']}>
-                    <View className={style['nickname']}>
-                      呵呵呵呵
-                      {/* {memberStore.profile.nickname || memberStore.profile.account} */}
-                    </View>
+                    <View className={style['nickname']}>{member.nickname || member.account}</View>
                     <Navigator
                       className={style['extra']}
                       url='/pagesMember/profile/profile'
@@ -51,24 +54,35 @@ export default () => {
                     >
                       <Text className={style['update']}>更新头像昵称</Text>
                     </Navigator>
+
+                    <Navigator
+                      className={style['settings']}
+                      url='/pagesMember/settings/settings'
+                      hoverClass='none'
+                      style={{
+                        top: `${top + height + 10}px`,
+                      }}
+                    >
+                      设置
+                    </Navigator>
                   </View>
                 </View>
               ) : (
                 /* 情况2：未登录 */
                 <View className={style['overview']}>
                   <Navigator
-                    url='/pages/login/login'
+                    url='/pages/login/index'
                     hoverClass='none'
                   >
                     <Image
-                      className={`${style['avatar']} ${style['gray']}`}
+                      className={mergeClassNames(style['avatar'], style['gray'])}
                       mode='aspectFill'
                       src='https://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-06/db628d42-88a7-46e7-abb8-659448c33081.png'
                     />
                   </Navigator>
                   <View className={style['meta']}>
                     <Navigator
-                      url='/pages/login/login'
+                      url='/pages/login/index'
                       hoverClass='none'
                       className={style['nickname']}
                     >
@@ -80,16 +94,6 @@ export default () => {
                   </View>
                 </View>
               )}
-              <Navigator
-                className={style['settings']}
-                url='/pagesMember/settings/settings'
-                hoverClass='none'
-                style={{
-                  top: `${top + height + 10}px`,
-                }}
-              >
-                设置
-              </Navigator>
             </View>
           ),
           hideArrow: true,
@@ -99,31 +103,33 @@ export default () => {
           customRender: (
             <>
               {/* 我的订单 */}
-              <View className={style['orders']}>
-                <View className={style['title']}>
-                  我的订单
-                  <Navigator
-                    className={style['navigator']}
-                    url='/pagesOrder/list/list?type=0'
-                    hoverClass='none'
-                  >
-                    查看全部订单<Text className='icon-right'></Text>
-                  </Navigator>
-                </View>
-                <View className={style['section']}>
-                  {/* 订单 */}
-                  {orderTypes.map((item) => (
+              {isLogin && (
+                <View className={style['orders']}>
+                  <View className={style['title']}>
+                    我的订单
                     <Navigator
-                      key={item.type}
-                      className={mergeClassNames(style['navigator'], item.icon)}
-                      url={`/pagesOrder/list/list?type=${item.type}`}
+                      className={style['navigator']}
+                      url='/pagesOrder/list/list?type=0'
                       hoverClass='none'
                     >
-                      {item.text}
+                      查看全部订单<Text className='icon-right'></Text>
                     </Navigator>
-                  ))}
+                  </View>
+                  <View className={style['section']}>
+                    {/* 订单 */}
+                    {orderTypes.map((item) => (
+                      <Navigator
+                        key={item.type}
+                        className={mergeClassNames(style['navigator'], item.icon)}
+                        url={`/pagesOrder/list/list?type=${item.type}`}
+                        hoverClass='none'
+                      >
+                        {item.text}
+                      </Navigator>
+                    ))}
+                  </View>
                 </View>
-              </View>
+              )}
             </>
           ),
           style: {

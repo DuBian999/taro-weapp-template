@@ -1,5 +1,3 @@
-// import { ossGetCredentialsApi } from '@/apis/file';
-import { AppDispatch } from '../../store';
 import { IOssConfig } from './index.type';
 
 const initialState: IOssConfig = {
@@ -26,7 +24,7 @@ export default {
     },
   },
 
-  effects: (dispatch: AppDispatch) => ({
+  effects: (dispatch) => ({
     /**
      * 登录
      * */
@@ -43,7 +41,7 @@ export default {
         success_action_status: '200',
         expiration: data.expiration,
       };
-      dispatch({ type: 'oss/setOssConfig', payload });
+      dispatch.oss.setOssConfig(payload);
       return data;
     },
   }),

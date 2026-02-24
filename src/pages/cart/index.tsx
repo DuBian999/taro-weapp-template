@@ -1,11 +1,12 @@
 import { deleteMemberCartAPI, getMemberCartAPI, putMemberCartBySkuIdAPI, putMemberCartSelectedAPI } from '@/apis/cart';
-import { Button, Checkbox, InputNumber, Swipe, Tag, ConfigProvider } from '@nutui/nutui-react-taro';
-import { Image, Navigator, ScrollView, Text, View } from '@tarojs/components';
-import Taro from '@tarojs/taro';
-import { useMemo, useState } from 'react';
 import TRLayout from '@/components/TRLayout';
+import useMemberStore from '@/hooks/useMemberStore';
 import type { CartItem } from '@/types/cart';
 import { mergeClassNames } from '@/utils/common';
+import { Button, Checkbox, Empty, InputNumber, SimpleValue, Swipe, Tag } from '@nutui/nutui-react-taro';
+import { Image, Navigator, ScrollView, Text, View } from '@tarojs/components';
+import Taro, { useDidShow } from '@tarojs/taro';
+import { useMemo, useState } from 'react';
 import style from './index.module.scss';
 
 const checkBoxstyle = {
@@ -19,19 +20,14 @@ const CartPage: React.FC = () => {
   // 优化购物车空列表状态，默认展示列表
   const [showCartList, setShowCartList] = useState(true);
 
+  const { isLogin } = useMemberStore();
+
   // 获取购物车数据
   const getMemberCartData = async () => {
     const res = await getMemberCartAPI();
     setCartList(res.result);
     setShowCartList(res.result.length > 0);
   };
-
-  // 初始化调用: 页面显示触发
-  // useDidShow(() => {
-  //   if (memberStore.profile) {
-  //     getMemberCartData()
-  //   }
-  // })
 
   // 点击删除按钮
   const onDeleteCart = (skuId: string) => {
@@ -51,8 +47,9 @@ const CartPage: React.FC = () => {
   };
 
   // 修改商品数量
-  const onChangeCount = (ev) => {
-    putMemberCartBySkuIdAPI(ev.index, { count: ev.value });
+  const onChangeCount = async (item: CartItem, count: SimpleValue) => {
+    await putMemberCartBySkuIdAPI(item.skuId, { count: Number(count) });
+    getMemberCartData();
   };
 
   // 修改选中状态-单品修改
@@ -105,6 +102,16 @@ const CartPage: React.FC = () => {
     Taro.navigateTo({ url: '/pagesOrder/create/create' });
   };
 
+  const gotoLogin: any = () => {
+    Taro.navigateTo({ url: '/pages/login/index' });
+  };
+
+  // 界面激活时获取最新的购物车数据
+  useDidShow(() => {
+    if (isLogin) {
+      getMemberCartData();
+    }
+  });
   // 渲染购物车列表
   const renderCartList = () => {
     return (
@@ -164,7 +171,7 @@ const CartPage: React.FC = () => {
                     defaultValue={item.count}
                     min={1}
                     max={item.stock}
-                    onChange={onChangeCount}
+                    onChange={(val) => onChangeCount(item, val)}
                   />
                 </View>
               </View>
@@ -184,26 +191,26 @@ const CartPage: React.FC = () => {
       body={{
         customRender: (
           <View className={style['host']}>
-            <ScrollView
-              enableBackToTop
-              scrollY
-              className={style['scroll-view']}
-              // onScrollToLower={onScrolltolower}
-            >
-              {/* 已登录: 显示购物车 */}
-              <>{renderCartList()}</>
-
-              {/* // 未登录: 提示登录
-          <View className={style['login-blank']}>
-            <Text className={style['text']}>登录后可查看购物车中的商品</Text>
-            <Navigator url='/pages/login/login' hoverClass='none'>
-              <Button className={style['button']}>去登录</Button>
-            </Navigator>
-          </View> */}
-
-              {/* 猜你喜欢 */}
-              {/* <XtxGuess ref={guessRef} /> */}
-            </ScrollView>
+            {isLogin ? (
+              <ScrollView
+                enableBackToTop
+                scrollY
+                className={style['scroll-view']}
+              >
+                <>{renderCartList()}</>
+              </ScrollView>
+            ) : (
+              <Empty
+                description='请登录后查看购物车内容哦'
+                actions={[
+                  {
+                    text: '去登录',
+                    type: 'primary',
+                    onClick: gotoLogin,
+                  },
+                ]}
+              />
+            )}
           </View>
         ),
         style: {
@@ -213,7 +220,7 @@ const CartPage: React.FC = () => {
       footer={{
         customRender: (
           <>
-            {showCartList && (
+            {isLogin && showCartList && (
               <View className={style['toolbar']}>
                 <Checkbox
                   checked={isSelectedAll}
