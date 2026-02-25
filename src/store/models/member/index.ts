@@ -1,5 +1,6 @@
 import { postLoginAPI, postLoginWxMinAPI } from '@/apis/login';
 import { LoginResult } from '@/types/member';
+import { setStorageSync, clearStorageSync } from '@tarojs/taro';
 
 const initialState: Partial<LoginResult> = {};
 
@@ -7,15 +8,21 @@ export default {
   name: 'member',
   state: initialState,
   reducers: {
-    setMemberInfo(state: LoginResult, payload: LoginResult) {
+    // 设置会员信息
+    setMemberInfo(state: Partial<LoginResult>, payload: Partial<LoginResult>) {
+      setStorageSync('Authorization', payload.token);
       return {
         ...state,
         ...payload,
       };
     },
+    // 清除会员信息
+    clearMemberInfo() {
+      clearStorageSync();
+      return {};
+    },
   },
 
-  // 修正：指定 effects 的返回类型
   effects: (dispatch) => ({
     // 手机快捷登录
     async handleSimpleLogin(payload: { ev: any; code: string }) {

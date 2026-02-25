@@ -15,8 +15,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('123456');
   const [code, setCode] = useState('');
 
-  const handleLoginSuccess = (res: LoginResult) => {
-    setStorageSync('Authorization', res.token);
+  const handleLoginSuccess = () => {
     // 成功提示
     showToast({ icon: 'success', title: '登录成功' });
     setTimeout(() => {
@@ -34,15 +33,15 @@ const Login: React.FC = () => {
       });
       return;
     }
-    const res = await dispatch.member.handleAccountLogin({ account, password });
-    handleLoginSuccess(res);
+    await dispatch.member.handleAccountLogin({ account, password });
+    handleLoginSuccess();
   };
 
   // 手机快捷登录
   const handleSimpleLogin = async (ev) => {
     const { encryptedData, iv } = ev.detail;
-    const res = await postLoginWxMinAPI({ code, encryptedData, iv });
-    handleLoginSuccess(res.result);
+    await postLoginWxMinAPI({ code, encryptedData, iv });
+    handleLoginSuccess();
   };
 
   useEffect(() => {

@@ -33,7 +33,7 @@ export default () => {
               {isLogin ? (
                 <View className={style['overview']}>
                   <Navigator
-                    url='/pagesMember/profile/profile'
+                    url='/pagesMember/profile/index'
                     hoverClass='none'
                   >
                     <Image
@@ -57,7 +57,7 @@ export default () => {
 
                     <Navigator
                       className={style['settings']}
-                      url='/pagesMember/settings/settings'
+                      url='/pagesMember/settings/index'
                       hoverClass='none'
                       style={{
                         top: `${top + height + 10}px`,
