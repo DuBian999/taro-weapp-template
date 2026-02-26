@@ -35,7 +35,7 @@ export default defineAppConfig({
   subPackages: [
     {
       root: 'pagesMember',
-      pages: ['settings/index', 'profile/index'],
+      pages: ['settings/index', 'profile/index', 'address/index', 'addressDetail/index'],
     },
   ],
   window: {

@@ -2,7 +2,7 @@ import TRLayout from '@/components/TRLayout';
 import { ArrowRight } from '@nutui/icons-react-taro';
 import { Button, Cell } from '@nutui/nutui-react-taro';
 import { useDispatch } from 'react-redux';
-import { navigateBack, showModal } from '@tarojs/taro';
+import { navigateBack, showModal, navigateTo } from '@tarojs/taro';
 import type { Dispatch } from '@/store';
 
 type FillType = 'none' | 'solid' | 'outline'; // 根据 NutUI Button 的实际类型调整
@@ -25,7 +25,11 @@ export default () => {
         extra: true,
         btnProps: {
           fill: 'none',
-          onClick: () => {},
+          onClick: () => {
+            navigateTo({
+              url: '/pagesMember/address/index',
+            });
+          },
         },
       },
     ],
