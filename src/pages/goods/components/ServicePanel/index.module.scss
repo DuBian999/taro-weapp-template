@@ -1,0 +1,60 @@
+.service-panel {
+  padding: 0 30rpx;
+  border-radius: 10rpx 10rpx 0 0;
+  position: relative;
+  background-color: #fff;
+}
+
+.title {
+  line-height: 1;
+  padding: 40rpx 0;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: normal;
+  border-bottom: 1rpx solid #ddd;
+  color: #444;
+}
+
+.close {
+  position: absolute;
+  right: 24rpx;
+  top: 24rpx;
+  font-size: 36rpx;
+  color: #999;
+}
+
+.content {
+  padding: 20rpx 20rpx 100rpx 20rpx;
+  height: 600rpx;
+  overflow: auto;
+  .item {
+    margin-top: 20rpx;
+  }
+
+  .dt {
+    margin-bottom: 10rpx;
+    font-size: 28rpx;
+    color: #333;
+    font-weight: 500;
+    position: relative;
+    padding-left: 30rpx;
+
+    &::before {
+      content: '';
+      width: 10rpx;
+      height: 10rpx;
+      border-radius: 50%;
+      background-color: #eaeaea;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+  }
+
+  .dd {
+    line-height: 1.6;
+    font-size: 26rpx;
+    color: #999;
+  }
+}

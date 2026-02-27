@@ -1,0 +1,237 @@
+.arrow {
+  &::after {
+    position: absolute;
+    top: 50%;
+    right: 30rpx;
+    content: '\e6c2';
+    color: #ccc;
+    font-family: erabbit !important;
+    font-size: 32rpx;
+    transform: translateY(-50%);
+  }
+}
+
+/* 商品信息 */
+.goods {
+  background-color: #fff;
+  .preview {
+    position: relative;
+    .indicator {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.33);
+      text-align: center;
+      bottom: 20rpx;
+      right: 40rpx;
+      border-radius: 12rpx;
+      padding: 4rpx 20rpx;
+      color: #fff;
+    }
+  }
+
+  .meta {
+    position: relative;
+    border-bottom: 1rpx solid #eaeaea;
+    .price {
+      height: 130rpx;
+      padding: 25rpx 30rpx 0;
+      color: #fff;
+      font-size: 34rpx;
+      box-sizing: border-box;
+      background-color: var(--primary);
+    }
+    .number {
+      font-size: 56rpx;
+    }
+    .brand {
+      width: 160rpx;
+      height: 80rpx;
+      overflow: hidden;
+      position: absolute;
+      top: 26rpx;
+      right: 30rpx;
+    }
+    .name {
+      max-height: 88rpx;
+      line-height: 1.4;
+      margin: 20rpx;
+      font-size: 32rpx;
+      color: #333;
+    }
+    .desc {
+      line-height: 1;
+      padding: 0 20rpx 30rpx;
+      font-size: 24rpx;
+      color: #cf4444;
+    }
+  }
+  .action {
+    padding-left: 20rpx;
+    .item {
+      height: 90rpx;
+      padding-right: 60rpx;
+      border-bottom: 1rpx solid #eaeaea;
+      font-size: 26rpx;
+      color: #333;
+      position: relative;
+      display: flex;
+      align-items: center;
+      &:last-child {
+        border-bottom: 0 none;
+      }
+    }
+    .label {
+      width: 60rpx;
+      color: #898b94;
+      margin: 0 16rpx 0 10rpx;
+    }
+    .text {
+      flex: 1;
+      line-clamp: 1;
+      -webkit-line-clamp: 1;
+      color: var(--primary);
+    }
+  }
+}
+
+/* 商品详情 */
+.detail {
+  padding-left: 20rpx;
+  .content {
+    margin-left: -20rpx;
+  }
+  .properties {
+    padding: 0 20rpx;
+    margin-bottom: 30rpx;
+    .item {
+      display: flex;
+      line-height: 2;
+      padding: 10rpx;
+      font-size: 26rpx;
+      color: #333;
+      border-bottom: 1rpx dashed #ccc;
+    }
+    .label {
+      width: 200rpx;
+    }
+    .value {
+      flex: 1;
+    }
+  }
+}
+
+.panel {
+  margin-top: 20rpx;
+  background-color: #fff;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90rpx;
+    line-height: 1;
+    padding: 30rpx 60rpx 30rpx 6rpx;
+    position: relative;
+    text {
+      padding-left: 10rpx;
+      font-size: 28rpx;
+      color: #333;
+      font-weight: 600;
+      border-left: 4rpx solid var(--primary);
+    }
+    navigator {
+      font-size: 24rpx;
+      color: #666;
+    }
+  }
+}
+
+/* 同类推荐 */
+.similar {
+  padding-left: 20rpx;
+  .content {
+    padding: 0 20rpx 20rpx;
+    margin-left: -20rpx;
+    background-color: #f4f4f4;
+    overflow: hidden;
+    navigator {
+      width: 345rpx;
+      padding: 24rpx 20rpx 20rpx;
+      margin: 20rpx 20rpx 0 0;
+      border-radius: 10rpx;
+      background-color: #fff;
+      float: left;
+    }
+    .image {
+      height: 260rpx;
+    }
+    .name {
+      margin: 10rpx 0;
+      font-size: 26rpx;
+      color: #262626;
+    }
+    .price {
+      line-height: 1;
+      font-size: 20rpx;
+      color: #cf4444;
+      margin-bottom: 20rpx;
+    }
+    .number {
+      font-size: 26rpx;
+      margin-left: 2rpx;
+    }
+  }
+  navigator {
+    &:nth-child(even) {
+      margin-right: 0;
+    }
+  }
+}
+
+/* 底部工具栏 */
+.toolbar {
+  background-color: #fff;
+  height: 100rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: content-box;
+
+  .bar-icons {
+    padding-right: 10rpx;
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    .bar-item {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .desc {
+      font-size: 24rpx;
+    }
+  }
+
+  .bar-buttons {
+    display: flex;
+
+    .singgle-btn {
+      width: 220rpx;
+      text-align: center;
+      line-height: 72rpx;
+      font-size: 26rpx;
+      color: #fff;
+      border-radius: 72rpx;
+    }
+    .addcart {
+      background-color: #ffa868;
+    }
+    .payment {
+      background-color: var(--primary);
+      margin-left: 20rpx;
+    }
+  }
+}

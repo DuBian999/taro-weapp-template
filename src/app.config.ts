@@ -31,7 +31,14 @@ export default defineAppConfig({
       },
     ],
   },
-  pages: ['pages/index/index', 'pages/my/index', 'pages/cart/index', 'pages/category/index', 'pages/login/index'],
+  pages: [
+    'pages/index/index',
+    'pages/my/index',
+    'pages/cart/index',
+    'pages/category/index',
+    'pages/login/index',
+    'pages/goods/index',
+  ],
   subPackages: [
     {
       root: 'pagesMember',

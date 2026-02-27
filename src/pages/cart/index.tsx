@@ -136,6 +136,7 @@ const CartPage: React.FC = () => {
                   style={{
                     height: '100%',
                   }}
+                  className='ml-4'
                 >
                   删除
                 </Button>

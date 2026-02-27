@@ -2,8 +2,9 @@ import { getCategoryTopAPI } from '@/apis/category';
 import TRLayout from '@/components/TRLayout/index';
 import type { CategoryTopItem } from '@/types/category';
 import { mergeClassNames } from '@/utils/common';
-import { SideBar, Grid } from '@nutui/nutui-react-taro';
+import { Grid, SideBar } from '@nutui/nutui-react-taro';
 import { Image, Navigator, Text, View } from '@tarojs/components';
+import { navigateTo } from '@tarojs/taro';
 import { useEffect, useMemo, useState } from 'react';
 import Header from './Components/Header';
 import style from './index.module.scss';
@@ -11,7 +12,6 @@ import style from './index.module.scss';
 export default () => {
   const [categoryList, setCategoryList] = useState<CategoryTopItem[]>([]);
   const [activeSiderBar, setActiveSiderBar] = useState<string>('');
-  console.log(1111);
 
   useEffect(() => {
     getCategoryTopAPI().then((res) => {
@@ -87,6 +87,11 @@ export default () => {
                                 <Text className={style['number']}>{goods.price}</Text>
                               </View>
                             </>
+                          }
+                          onClick={() =>
+                            navigateTo({
+                              url: `/pages/goods/index?id=${goods.id}`,
+                            })
                           }
                         >
                           <Image

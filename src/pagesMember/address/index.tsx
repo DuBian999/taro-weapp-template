@@ -70,14 +70,17 @@ export default () => {
                       key={item.id}
                       className={styles['address-list']}
                       rightAction={
-                        <Button
-                          onClick={() => onDeleteAddress(item.id)}
-                          type='danger'
-                          shape='square'
-                          block
-                        >
-                          删除
-                        </Button>
+                        <>
+                          <Button
+                            onClick={() => onDeleteAddress(item.id)}
+                            type='danger'
+                            shape='square'
+                            block
+                            className='ml-4'
+                          >
+                            删除
+                          </Button>
+                        </>
                       }
                     >
                       <View
