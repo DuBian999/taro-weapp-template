@@ -4,7 +4,7 @@ import type { CategoryTopItem } from '@/types/category';
 import { mergeClassNames } from '@/utils/common';
 import { Grid, SideBar } from '@nutui/nutui-react-taro';
 import { Image, Navigator, Text, View } from '@tarojs/components';
-import { navigateTo } from '@tarojs/taro';
+import { navigateTo, pxTransform } from '@tarojs/taro';
 import { useEffect, useMemo, useState } from 'react';
 import Header from './Components/Header';
 import style from './index.module.scss';
@@ -37,7 +37,7 @@ export default () => {
       header={{
         customRender: <Header />,
         style: {
-          padding: '20rpx 0',
+          padding: `0 0 ${pxTransform(20)} 0`,
           backgroundColor: '#57bea0',
         },
       }}
@@ -97,8 +97,8 @@ export default () => {
                           <Image
                             src={goods.picture}
                             style={{
-                              width: '120rpx',
-                              height: '120rpx',
+                              width: pxTransform(120),
+                              height: pxTransform(120),
                             }}
                           />
                         </Grid.Item>

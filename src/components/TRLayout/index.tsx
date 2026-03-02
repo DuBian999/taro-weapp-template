@@ -1,83 +1,50 @@
+import useMenuBtnClient from '@/hooks/useMenuBtnClient';
 import { ArrowLeft } from '@nutui/icons-react-taro';
-import { SafeArea } from '@nutui/nutui-react-taro';
+import { NavBar, SafeArea } from '@nutui/nutui-react-taro';
 import { View } from '@tarojs/components';
-import { getMenuButtonBoundingClientRect, navigateBack } from '@tarojs/taro';
-import React, { ReactNode } from 'react';
+import { navigateBack } from '@tarojs/taro';
+import React, { useMemo } from 'react';
+import type { LayoutProps } from './index.d';
 import style from './index.module.scss';
-
-interface LayoutContentProps {
-  style?: React.CSSProperties;
-  customRender?: ReactNode;
-}
-
-interface LayoutProps {
-  navBar?: {
-    style?: React.CSSProperties;
-    title?: string | ReactNode;
-    showTitle?: boolean;
-    hideArrow?: boolean;
-    customRender?: (params: { top: number; height: number; width: number; right: number }) => ReactNode;
-  };
-  header?: LayoutContentProps;
-  body?: LayoutContentProps;
-  footer?: LayoutContentProps;
-}
 
 const defaultContentStyle = {
   padding: '16px',
 };
 
 const TRLayout: React.FC<LayoutProps> = ({ navBar, header, body, footer }) => {
-  // 微信-分享胶囊位置
-  const { top, height, width, right } = getMenuButtonBoundingClientRect();
+  const { menuBtnPosition } = useMenuBtnClient();
 
-  const { title, hideArrow, style: navBarStyle = {}, customRender: NavBar } = navBar || {};
+  const { title, hideArrow, style: navBarStyle = {}, showNavBar = true } = navBar || {};
   const { style: headerContentStyle = defaultContentStyle, customRender: Header } = header || {};
   const { style: bodyContentStyle = defaultContentStyle, customRender: Body } = body || {};
   const { style: footerContentStyle = defaultContentStyle, customRender: Footer } = footer || {};
+
+  // 导航栏基础样式适配H5和微信小程序
+  const navBarBasicStyle = useMemo(() => {
+    if (process.env.TARO_ENV === 'weapp') {
+      return {
+        '--nutui-navbar-height': `${menuBtnPosition.height + menuBtnPosition.top + 10}px`,
+        paddingTop: `${menuBtnPosition.top - 10}px`,
+        background: 'transparent',
+      } as React.CSSProperties;
+    }
+    return {};
+  }, [menuBtnPosition.height, menuBtnPosition.top]);
 
   return (
     <View
       className={style['tr-layout']}
       id='tr-layout'
     >
-      {/* 顶部安全区域 */}
-      <SafeArea position='top' />
-      {
-        // 自定义导航栏 或者 默认导航栏
-        NavBar ? (
-          NavBar({ top, height, width, right })
-        ) : (
-          <View
-            className={style['custom-navbar']}
-            style={{
-              height: `${height}px`,
-              paddingTop: `${top}px`,
-              ...navBarStyle,
-            }}
-          >
-            {/* 返回按钮 */}
-            {!hideArrow && (
-              <View
-                className={style['arrow-left']}
-                onClick={() => navigateBack()}
-              >
-                <ArrowLeft size={20} />
-              </View>
-            )}
-            {/* 居中标题 */}
-            <View className={style['title']}>{title}</View>
-            {/* 胶囊占位区 */}
-            <View
-              style={{
-                width: `${width}px`,
-                height: `${height}px`,
-                marginRight: `calc(100% - ${right}px)`,
-              }}
-            />
-          </View>
-        )
-      }
+      {showNavBar && (
+        <NavBar
+          back={hideArrow ? undefined : <ArrowLeft />}
+          style={{ ...navBarBasicStyle, ...navBarStyle }}
+          onBackClick={() => navigateBack()}
+        >
+          {title}
+        </NavBar>
+      )}
 
       {/* 头部内容 */}
       {Header && (

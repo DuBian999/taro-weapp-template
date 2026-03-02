@@ -58,7 +58,7 @@ const Index = () => {
           },
         }}
         header={{
-          customRender: <Header bannerList={bannerList} />,
+          customRender: bannerList.length && <Header bannerList={bannerList} />,
           style: {
             padding: 0,
           },

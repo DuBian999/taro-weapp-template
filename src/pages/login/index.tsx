@@ -45,6 +45,9 @@ const Login: React.FC = () => {
   };
 
   useEffect(() => {
+    if (process.env.TARO_ENV === 'h5') {
+      return;
+    }
     login({}).then((res) => {
       setCode(res.code);
     });

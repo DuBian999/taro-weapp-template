@@ -1,6 +1,7 @@
 import { CategoryItem } from '@/types';
 import { Grid } from '@nutui/nutui-react-taro';
 import { Image } from '@tarojs/components';
+import { pxTransform } from '@tarojs/taro';
 
 const Category: React.FC<{ categoryList: CategoryItem[] }> = ({ categoryList }) => {
   return (
@@ -21,8 +22,8 @@ const Category: React.FC<{ categoryList: CategoryItem[] }> = ({ categoryList }) 
           <Image
             src={item.icon}
             style={{
-              width: '100rpx',
-              height: '100rpx',
+              width: pxTransform(100),
+              height: pxTransform(100),
             }}
           />
         </Grid.Item>

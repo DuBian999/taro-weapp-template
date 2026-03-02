@@ -9,7 +9,6 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
   const baseConfig: UserConfigExport<'webpack5'> = {
     projectName: 'taro-template',
     date: '2025-5-29',
-    designWidth: 375,
     deviceRatio: {
       640: 2.34 / 2,
       750: 1,
@@ -21,7 +20,15 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       '@': path.resolve(__dirname, './src'),
     },
     // 打包-文件输出路径
-    outputRoot: `dist/${process.env.NODE_ENV}`,
+    outputRoot: `dist/${process.env.TARO_ENV}/${process.env.NODE_ENV}`,
+    designWidth: (input: any) => {
+      // 配置 NutUI 375 尺寸
+      if (input?.file?.replace(/\\+/g, '/').indexOf('@nutui') > -1) {
+        return 375;
+      }
+      // 全局使用 Taro 默认的 750 尺寸
+      return 750;
+    },
     plugins: ['@tarojs/plugin-html'],
     defineConstants: {},
     copy: {
@@ -33,6 +40,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       type: 'webpack5',
       prebundle: {
         enable: false,
+        exclude: ['@nutui/nutui-react-taro', '@nutui/icons-react-taro'],
       },
     },
     cache: {
@@ -82,11 +90,21 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
           config: {},
         },
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
             namingPattern: 'module', // 转换模式，取值为 global/module
             generateScopedName: '[name]__[local]___[hash:base64:5]',
           },
+        },
+        pxtransform: {
+          enable: true,
+          // 包含 `nut-` 的类名选择器中的 px 单位不会被解析
+          config: { selectorBlackList: ['nut-'] },
+        },
+      },
+      devServer: {
+        client: {
+          overlay: false,
         },
       },
       webpackChain(chain) {

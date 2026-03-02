@@ -1,8 +1,10 @@
 import GuessLike from '@/components/TRGuessLike';
 import TRLayout from '@/components/TRLayout/index';
 import useMemberStore from '@/hooks/useMemberStore';
+import useMenuBtnClient from '@/hooks/useMenuBtnClient';
 import { mergeClassNames } from '@/utils/common';
 import { Image, Navigator, Text, View } from '@tarojs/components';
+import { pxTransform } from '@tarojs/taro';
 import style from './index.module.scss';
 
 // 订单选项
@@ -15,93 +17,91 @@ const orderTypes = [
 ];
 
 export default () => {
+  const { menuBtnPosition } = useMenuBtnClient();
   const { isLogin, member } = useMemberStore();
 
   return (
     <>
       <TRLayout
         navBar={{
-          customRender: ({ top, height }) => (
-            <View
-              className={style['profile']}
-              style={{
-                paddingTop: `${top}px`,
-                paddingBottom: `10px`,
-              }}
-            >
-              {/* 情况1：已登录 */}
-              {isLogin ? (
-                <View className={style['overview']}>
-                  <Navigator
-                    url='/pagesMember/profile/index'
-                    hoverClass='none'
-                  >
-                    <Image
-                      src={
-                        member.avatar ||
-                        'https://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-06/db628d42-88a7-46e7-abb8-659448c33081.png'
-                      }
-                      mode='aspectFill'
-                      className={style['avatar']}
-                    />
-                  </Navigator>
-                  <View className={style['meta']}>
-                    <View className={style['nickname']}>{member.nickname || member.account}</View>
-                    <Navigator
-                      className={style['extra']}
-                      url='/pagesMember/profile/profile'
-                      hoverClass='none'
-                    >
-                      <Text className={style['update']}>更新头像昵称</Text>
-                    </Navigator>
-
-                    <Navigator
-                      className={style['settings']}
-                      url='/pagesMember/settings/index'
-                      hoverClass='none'
-                      style={{
-                        top: `${top + height + 10}px`,
-                      }}
-                    >
-                      设置
-                    </Navigator>
-                  </View>
-                </View>
-              ) : (
-                /* 情况2：未登录 */
-                <View className={style['overview']}>
-                  <Navigator
-                    url='/pages/login/index'
-                    hoverClass='none'
-                  >
-                    <Image
-                      className={mergeClassNames(style['avatar'], style['gray'])}
-                      mode='aspectFill'
-                      src='https://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-06/db628d42-88a7-46e7-abb8-659448c33081.png'
-                    />
-                  </Navigator>
-                  <View className={style['meta']}>
-                    <Navigator
-                      url='/pages/login/index'
-                      hoverClass='none'
-                      className={style['nickname']}
-                    >
-                      未登录
-                    </Navigator>
-                    <View className={style['extra']}>
-                      <Text className={style['tips']}>点击登录账号</Text>
-                    </View>
-                  </View>
-                </View>
-              )}
-            </View>
-          ),
-          hideArrow: true,
-          title: '我的',
+          showNavBar: false,
         }}
         header={{
           customRender: (
             <>
+              <View
+                className={style['profile']}
+                style={{
+                  paddingTop: `${menuBtnPosition.top + 10}px`,
+                  paddingBottom: pxTransform(10),
+                }}
+              >
+                {/* 情况1：已登录 */}
+                {isLogin ? (
+                  <View className={style['overview']}>
+                    <Navigator
+                      url='/pagesMember/profile/index'
+                      hoverClass='none'
+                    >
+                      <Image
+                        src={
+                          member.avatar ||
+                          'https://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-06/db628d42-88a7-46e7-abb8-659448c33081.png'
+                        }
+                        mode='aspectFill'
+                        className={style['avatar']}
+                      />
+                    </Navigator>
+                    <View className={style['meta']}>
+                      <View className={style['nickname']}>{member.nickname || member.account}</View>
+                      <Navigator
+                        className={style['extra']}
+                        url='/pagesMember/profile/profile'
+                        hoverClass='none'
+                      >
+                        <Text className={style['update']}>更新头像昵称</Text>
+                      </Navigator>
+
+                      <Navigator
+                        className={style['settings']}
+                        url='/pagesMember/settings/index'
+                        hoverClass='none'
+                        style={{
+                          top: `${menuBtnPosition.top + menuBtnPosition.height + 10}px`,
+                        }}
+                      >
+                        设置
+                      </Navigator>
+                    </View>
+                  </View>
+                ) : (
+                  /* 情况2：未登录 */
+                  <View className={style['overview']}>
+                    <Navigator
+                      url='/pages/login/index'
+                      hoverClass='none'
+                    >
+                      <Image
+                        className={mergeClassNames(style['avatar'], style['gray'])}
+                        mode='aspectFill'
+                        src='https://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-04-06/db628d42-88a7-46e7-abb8-659448c33081.png'
+                      />
+                    </Navigator>
+                    <View className={style['meta']}>
+                      <Navigator
+                        url='/pages/login/index'
+                        hoverClass='none'
+                        className={style['nickname']}
+                      >
+                        未登录
+                      </Navigator>
+                      <View className={style['extra']}>
+                        <Text className={style['tips']}>点击登录账号</Text>
+                      </View>
+                    </View>
+                  </View>
+                )}
+              </View>
               {/* 我的订单 */}
               {isLogin && (
                 <View className={style['orders']}>
