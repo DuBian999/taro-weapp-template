@@ -9,8 +9,12 @@ import Category from './conponents/Category';
 import Header from './conponents/Header';
 import Hot from './conponents/Hot';
 import NavBar from './conponents/NavBar';
+import IndexSkeleton from './conponents/Skeleton';
 
 const Index = () => {
+  // 骨架屏状态
+  const [skeletonLoading, setSkeletonLoading] = useState(true);
+
   // banner轮播列表
   const [bannerList, setBannerList] = useState<BannerItem[]>([]);
   // 分类列表
@@ -38,9 +42,9 @@ const Index = () => {
   };
 
   const initData = useCallback(() => {
-    getHomeBannerData();
-    getCateGoryData();
-    getHotData();
+    Promise.all([getHomeBannerData(), getCateGoryData(), getHotData()]).then(() => {
+      setSkeletonLoading(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -49,42 +53,46 @@ const Index = () => {
 
   return (
     <>
-      <TRLayout
-        navBar={{
-          title: <NavBar />,
-          hideArrow: true,
-          style: {
-            backgroundColor: '#57bea0',
-          },
-        }}
-        header={{
-          customRender: bannerList.length && <Header bannerList={bannerList} />,
-          style: {
-            padding: 0,
-          },
-        }}
-        body={{
-          customRender: (
-            <>
-              <InfiniteLoading
-                pullRefresh
-                onRefresh={async () => {
-                  initData();
-                  guessLikeRef.current?.resetData();
-                }}
-                onLoadMore={async () => {
-                  guessLikeRef.current?.getMore();
-                }}
-              >
-                <Category categoryList={categoryList} />
-                <Hot hotList={hotList} />
-                <TRGuessLike ref={guessLikeRef} />
-              </InfiniteLoading>
-            </>
-          ),
-        }}
-        footer={{}}
-      />
+      {skeletonLoading ? (
+        <IndexSkeleton />
+      ) : (
+        <TRLayout
+          navBar={{
+            title: <NavBar />,
+            hideArrow: true,
+            style: {
+              backgroundColor: '#57bea0',
+            },
+          }}
+          header={{
+            customRender: bannerList.length && <Header bannerList={bannerList} />,
+            style: {
+              padding: 0,
+            },
+          }}
+          body={{
+            customRender: (
+              <>
+                <InfiniteLoading
+                  pullRefresh
+                  onRefresh={async () => {
+                    initData();
+                    guessLikeRef.current?.resetData();
+                  }}
+                  onLoadMore={async () => {
+                    guessLikeRef.current?.getMore();
+                  }}
+                >
+                  <Category categoryList={categoryList} />
+                  <Hot hotList={hotList} />
+                  <TRGuessLike ref={guessLikeRef} />
+                </InfiniteLoading>
+              </>
+            ),
+          }}
+          footer={{}}
+        />
+      )}
     </>
   );
 };

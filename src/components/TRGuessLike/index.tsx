@@ -1,7 +1,9 @@
 import { getHomeGoodsGuessLikeAPI } from '@/apis/index';
 import type { PageParams } from '@/types/global';
 import type { GuessItem } from '@/types/index';
-import { Image, Navigator, Text, View } from '@tarojs/components';
+import { Loading } from '@nutui/icons-react-taro';
+import { Image } from '@nutui/nutui-react-taro';
+import { Navigator, Text, View } from '@tarojs/components';
 import { showToast } from '@tarojs/taro';
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import style from './index.module.scss';
@@ -103,6 +105,7 @@ const GuessLike = forwardRef<GuessLikeHandle, GuessLikeProps>((_, ref) => {
               className={style['image']}
               mode='aspectFill'
               src={item.picture}
+              loading={<Loading />}
             />
             <View className={style['name']}>{item.name}</View>
             <View className={style['price']}>

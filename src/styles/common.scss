@@ -2,7 +2,19 @@
   box-sizing: border-box;
 }
 
-page {
+page,
+:root,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; // 禁止全局滚动
+  .taro_page {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; // 禁止全局滚动
+  }
   /* flex */
   .flx-column {
     display: flex;

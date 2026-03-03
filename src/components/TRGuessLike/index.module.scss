@@ -34,16 +34,16 @@
   justify-content: space-between;
   padding: 0 20rpx;
   .guess-item {
-    width: 50%;
+    width: 48%;
     box-sizing: border-box;
-    padding: 24rpx 20rpx 20rpx;
+    padding: 20rpx;
     margin-bottom: 20rpx;
     border-radius: 10rpx;
     overflow: hidden;
     background-color: #fff;
   }
   .image {
-    width: 304rpx;
+    width: 100%;
     height: 304rpx;
   }
   .name {
