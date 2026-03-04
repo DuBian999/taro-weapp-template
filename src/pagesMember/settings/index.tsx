@@ -2,7 +2,7 @@ import TRLayout from '@/components/TRLayout';
 import { ArrowRight } from '@nutui/icons-react-taro';
 import { Button, Cell } from '@nutui/nutui-react-taro';
 import { useDispatch } from 'react-redux';
-import { navigateBack, showModal, navigateTo } from '@tarojs/taro';
+import { navigateBack, showModal, navigateTo, openSetting, pxTransform } from '@tarojs/taro';
 import type { Dispatch } from '@/store';
 
 type FillType = 'none' | 'solid' | 'outline'; // 根据 NutUI Button 的实际类型调整
@@ -22,7 +22,6 @@ export default () => {
     [
       {
         title: '我的收货地址',
-        extra: true,
         btnProps: {
           fill: 'none',
           onClick: () => {
@@ -37,7 +36,6 @@ export default () => {
     [
       {
         title: '授权管理',
-        extra: true,
         btnProps: {
           openType: 'openSetting',
           fill: 'none',
@@ -45,7 +43,6 @@ export default () => {
       },
       {
         title: '问题管理',
-        extra: true,
         btnProps: {
           openType: 'feedback',
           fill: 'none',
@@ -53,7 +50,6 @@ export default () => {
       },
       {
         title: '联系我们',
-        extra: true,
         btnProps: {
           openType: 'contact',
           fill: 'none',
@@ -64,7 +60,6 @@ export default () => {
     [
       {
         title: '关于我们',
-        extra: true,
         btnProps: {
           fill: 'none',
         },
@@ -99,10 +94,14 @@ export default () => {
                 {group.map((item, itemIndex) => (
                   <Cell
                     key={`${groupIndex}-${itemIndex}`}
-                    title={<Button {...item.btnProps}>{item.title}</Button>}
+                    title={<Button fill='none'>{item.title}</Button>}
                     align='center'
-                    extra={item.extra ? <ArrowRight /> : null}
-                    style={{ padding: '10rpx' }}
+                    extra={
+                      <Button {...item.btnProps}>
+                        <ArrowRight />
+                      </Button>
+                    }
+                    style={{ padding: pxTransform(10) }}
                   />
                 ))}
               </Cell.Group>
@@ -110,7 +109,7 @@ export default () => {
 
             <Cell.Group>
               <Cell
-                style={{ padding: '10rpx 0' }}
+                style={{ padding: `${pxTransform(10)}` }}
                 onClick={handleLoginOut}
               >
                 <Button

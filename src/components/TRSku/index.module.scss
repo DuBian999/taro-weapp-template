@@ -1,6 +1,5 @@
 .skuPopup {
   padding: 30px 24px 24px;
-  max-height: 70vh;
   display: flex;
   flex-direction: column;
 }
@@ -9,6 +8,8 @@
   display: flex;
   margin-bottom: 20px;
   position: relative;
+  /* 固定头部高度，不参与 flex 分配 */
+  flex-shrink: 0;
 
   .thumb {
     width: 160px;
@@ -51,11 +52,10 @@
   }
 }
 
+/* specs 占满剩余空间 */
 .specs {
-  flex: 1;
-  max-height: 300px;
-  overflow-y: auto;
   margin-bottom: 20px;
+  max-height: 600rpx;
 
   .specGroup {
     margin-bottom: 20px;
@@ -81,9 +81,8 @@
         background-color: #fff;
 
         &.selected {
-          border-color: #fa2c19;
-          color: #fa2c19;
-          background-color: #fff2f0;
+          border-color: var(--primary);
+          color: var(--primary);
         }
 
         &.disabled {
@@ -97,6 +96,7 @@
   }
 }
 
+/* 数量选择区域固定高度 */
 .quantity {
   display: flex;
   align-items: center;
@@ -105,6 +105,7 @@
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   margin-bottom: 20px;
+  flex-shrink: 0; /* 防止被压缩 */
 
   .label {
     font-size: 28px;
@@ -112,9 +113,11 @@
   }
 }
 
+/* 按钮组固定高度 */
 .buttonGroup {
   display: flex;
   gap: 12px;
+  flex-shrink: 0; /* 防止被压缩 */
 
   .nut-button {
     flex: 1;

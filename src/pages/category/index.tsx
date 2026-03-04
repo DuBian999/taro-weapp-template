@@ -28,8 +28,6 @@ export default () => {
     return categoryList.find((item) => item.name === activeSiderBar)?.children || [];
   }, [activeSiderBar, categoryList]);
 
-  console.log(subCategoryList, 'subCategoryListsubCategoryList');
-
   return (
     <>
       {skeletonLoading ? (

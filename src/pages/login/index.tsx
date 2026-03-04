@@ -1,10 +1,9 @@
-import { postLoginAPI, postLoginWxMinAPI } from '@/apis/login';
+import { postLoginWxMinAPI } from '@/apis/login';
 import TRLayout from '@/components/TRLayout';
 import type { Dispatch } from '@/store';
-import { LoginResult } from '@/types/member';
 import { Button, Divider, Input, Row } from '@nutui/nutui-react-taro';
 import { Image, Text, View } from '@tarojs/components';
-import { login, navigateBack, showToast, setStorageSync } from '@tarojs/taro';
+import { login, navigateBack, pxTransform, showToast } from '@tarojs/taro';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './index.module.scss';
@@ -127,9 +126,19 @@ const Login: React.FC = () => {
           ),
         }}
         footer={{
-          customRender: <Row justify='center'>登录/注册即视为你同意《服务条款》</Row>,
+          customRender: (
+            <Row justify='center'>
+              <Text
+                style={{
+                  fontSize: pxTransform(28),
+                }}
+              >
+                登录/注册即视为你同意《服务条款》
+              </Text>
+            </Row>
+          ),
           style: {
-            padding: '20rpx 0',
+            padding: `${pxTransform(20)} 0`,
             backgroundColor: 'transparent',
           },
         }}

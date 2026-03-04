@@ -35,7 +35,7 @@ export default () => {
   async function upload(file: File) {
     const filePath = (file as any).tempFilePath;
     uploadFile({
-      url: 'https://pcapi-xiaotuxian-front-devtest.itheima.net/member/profile/avatar',
+      url: `${process.env.TARO_APP_BASE_URL}/member/profile/avatar`,
       filePath,
       name: 'file',
       header: {
@@ -48,6 +48,7 @@ export default () => {
         console.log(err, 'errerr');
       },
     });
+
     return { url: filePath };
   }
 

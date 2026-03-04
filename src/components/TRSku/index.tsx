@@ -1,5 +1,5 @@
 import { mergeClassNames } from '@/utils/common';
-import { Button, InputNumber, Popup } from '@nutui/nutui-react-taro';
+import { Button, InputNumber, ConfigProvider } from '@nutui/nutui-react-taro';
 import { Image, ScrollView, Text, View } from '@tarojs/components';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.module.scss';
@@ -40,10 +40,8 @@ export interface SkuPopupEvent extends SkuPopupSkuItem {
 
 /** SKU弹出层属性 */
 export interface SkuPopupProps {
-  /** 控制弹出层显示/隐藏 */
-  visible: boolean;
   /** 关闭弹出层 */
-  onClose: () => void;
+  onClose?: () => void;
   /** 商品信息本地数据源 */
   localdata: SkuPopupLocaldata;
   /** 按钮模式 1:都显示 2:只显示购物车 3:只显示立即购买 */
@@ -126,44 +124,29 @@ export interface SkuPopupProps {
 // ---------- 组件 ----------
 const SkuPopup: React.FC<SkuPopupProps> = (props) => {
   const {
-    visible,
     onClose,
     localdata,
     mode = 1,
     noStockText = '该商品已抢完',
     stockText = '库存',
-    maskCloseAble = true,
-    borderRadius = '16rpx 16rpx 0 0',
     minBuyNum = 1,
     maxBuyNum = 99999,
     stepBuyNum = 1,
-    stepStrictly = false,
     hideStock = false,
-    theme = 'default',
     amountType = 1,
-    customAction,
-    showClose = true,
+    showClose = false,
     closeImage,
     priceColor = '#fa2c19',
     buyNowText = '立即购买',
-    buyNowColor = '#fff',
-    buyNowBackgroundColor = '#fa2c19',
     addCartText = '加入购物车',
-    addCartColor = '#fff',
-    addCartBackgroundColor = '#ffb31c',
     goodsThumbBackgroundColor = '#f5f5f5',
     disableStyle,
     activedStyle,
     btnStyle,
-    goodsIdName = '_id',
-    skuIdName = '_id',
-    skuListName = 'sku_list',
-    specListName = 'spec_list',
     stockName = 'stock',
     skuArrName = 'sku_name_arr',
     goodsThumbName = 'goods_thumb',
     selectArr = [],
-    onOpen,
     onAddCart,
     onBuyNow,
   } = props;
@@ -178,11 +161,12 @@ const SkuPopup: React.FC<SkuPopupProps> = (props) => {
   // 当localdata变化时重置选中状态
   useEffect(() => {
     // 如果有外部传入的 selectArr，尝试匹配
-    if (selectArr.length > 0 && localdata?.spec_list) {
-      const indexes = selectArr.map((specValue) => {
-        // 查找对应的规格组和选项索引，这里简化处理：需要外部保证 selectArr 顺序与 spec_list 一致
-        // 实际项目可能需要更复杂的匹配逻辑
-        return 0; // 示例，这里请根据实际数据调整
+    if (selectArr.length > 0 && localdata?.spec_list.length === selectArr.length) {
+      const indexes = selectArr.map((val, groupIndex) => {
+        // 在当前规格组的 list 中查找匹配的选项
+        const optionIndex = localdata?.spec_list[groupIndex].list.findIndex((option) => option.name === val);
+        // 如果找不到，返回0（默认选第一个）
+        return optionIndex !== -1 ? optionIndex : 0;
       });
       setSelectedIndexes(indexes);
     } else {
@@ -190,7 +174,7 @@ const SkuPopup: React.FC<SkuPopupProps> = (props) => {
       const initial = localdata?.spec_list?.map(() => 0) || [];
       setSelectedIndexes(initial);
     }
-  }, [localdata, selectArr]);
+  }, [localdata?.spec_list, selectArr]);
 
   // 根据选中的规格索引，查找匹配的SKU
   useEffect(() => {
@@ -316,122 +300,130 @@ const SkuPopup: React.FC<SkuPopupProps> = (props) => {
       );
     }
 
-    const buttons: React.ReactNode[] = [];
-    if (mode === 1 || mode === 2) {
-      buttons.push(
-        <Button
-          key='addCart'
-          block={mode === 2}
-          type='primary'
-          style={{
-            color: addCartColor,
-            backgroundColor: addCartBackgroundColor,
-            marginRight: mode === 1 ? '10px' : 0,
-            flex: mode === 1 ? 1 : 'none',
-          }}
-          onClick={handleAddCart}
-        >
-          {addCartText}
-        </Button>
-      );
-    }
-    if (mode === 1 || mode === 3) {
-      buttons.push(
-        <Button
-          key='buyNow'
-          block={mode === 3}
-          type='primary'
-          style={{
-            color: buyNowColor,
-            backgroundColor: buyNowBackgroundColor,
-            flex: mode === 1 ? 1 : 'none',
-          }}
-          onClick={handleBuyNow}
-        >
-          {buyNowText}
-        </Button>
-      );
-    }
+    const buttons: React.ReactNode[] = [
+      <Button
+        key='addCart'
+        type='primary'
+        block
+        onClick={handleAddCart}
+      >
+        选择
+      </Button>,
+    ];
+    // if (mode === 1 || mode === 2) {
+    //   buttons.push(
+    //     <Button
+    //       key='addCart'
+    //       block={mode === 2}
+    //       type='primary'
+    //       style={{
+    //         marginRight: mode === 1 ? '10px' : 0,
+    //         flex: mode === 1 ? 1 : 'none',
+    //       }}
+    //       onClick={handleAddCart}
+    //     >
+    //       {addCartText}
+    //     </Button>
+    //   );
+    // }
+    // if (mode === 1 || mode === 3) {
+    //   buttons.push(
+    //     <Button
+    //       key='buyNow'
+    //       block={mode === 3}
+    //       type='primary'
+    //       style={{
+    //         flex: mode === 1 ? 1 : 'none',
+    //       }}
+    //       onClick={handleBuyNow}
+    //     >
+    //       {buyNowText}
+    //     </Button>
+    //   );
+    // }
     return <View className={styles.buttonGroup}>{buttons}</View>;
   };
 
   return (
-    <Popup
-      visible={visible}
-      onClose={onClose}
-      position='bottom'
-      closeable={maskCloseAble}
-      style={{ borderRadius }}
-      onOpen={onOpen}
-    >
-      <View className={styles.skuPopup}>
-        {/* 头部 - 商品信息 */}
-        <View className={styles.header}>
-          <View
-            className={styles.thumb}
-            style={{ backgroundColor: goodsThumbBackgroundColor }}
+    <View className={styles.skuPopup}>
+      {/* 头部 - 商品信息 */}
+      <View className={styles.header}>
+        <View
+          className={styles.thumb}
+          style={{ backgroundColor: goodsThumbBackgroundColor }}
+        >
+          <Image
+            src={goodsImage}
+            mode='aspectFill'
+          />
+        </View>
+        <View className={styles.info}>
+          <Text
+            className={styles.price}
+            style={{ color: priceColor }}
           >
-            <Image
-              src={goodsImage}
-              mode='aspectFill'
-            />
-          </View>
-          <View className={styles.info}>
-            <Text
-              className={styles.price}
-              style={{ color: priceColor }}
-            >
-              ¥ {displayPrice}
+            ¥ {displayPrice}
+          </Text>
+          {!hideStock && (
+            <Text className={styles.stock}>
+              {stockText}：{stock}
             </Text>
-            {!hideStock && (
-              <Text className={styles.stock}>
-                {stockText}：{stock}
-              </Text>
-            )}
-          </View>
-          {showClose && (
-            <View
-              className={styles.close}
-              onClick={onClose}
-            >
-              {closeImage ? (
-                <Image
-                  src={closeImage}
-                  mode='aspectFit'
-                />
-              ) : (
-                <Text className={styles.closeIcon}>×</Text>
-              )}
-            </View>
           )}
         </View>
+        {showClose && (
+          <View
+            className={styles.close}
+            onClick={onClose}
+          >
+            {closeImage ? (
+              <Image
+                src={closeImage}
+                mode='aspectFit'
+              />
+            ) : (
+              <Text className={styles.closeIcon}>×</Text>
+            )}
+          </View>
+        )}
+      </View>
 
-        {/* 规格列表 */}
-        <ScrollView
-          scrollY
-          className={styles.specs}
+      {/* 规格列表 */}
+      <ScrollView
+        scrollY
+        className={styles.specs}
+      >
+        {renderSpecs()}
+      </ScrollView>
+
+      {/* 数量选择 */}
+      <View className={styles.quantity}>
+        <Text className={styles.label}>数量</Text>
+
+        <ConfigProvider
+          theme={{
+            nutuiInputnumberButtonWidth: '32px',
+            nutuiInputnumberButtonHeight: '32px',
+            nutuiInputnumberButtonBorderRadius: '2px',
+            nutuiInputnumberButtonBackgroundColor: `#f4f4f4`,
+            nutuiInputnumberInputHeight: '32px',
+            nutuiInputnumberInputMargin: '0 2px',
+          }}
         >
-          {renderSpecs()}
-        </ScrollView>
-
-        {/* 数量选择 */}
-        <View className={styles.quantity}>
-          <Text className={styles.label}>数量</Text>
           <InputNumber
             min={minBuyNum}
             max={maxBuyNum}
             step={stepBuyNum}
             value={buyNum}
-            // onChange={(val) => setBuyNum(val)}
+            onChange={(val) => setBuyNum(val as number)}
             disabled={!canBuy}
             // stepStrictly={stepStrictly}
           />
-        </View>
-
-        {/* 底部按钮 */}
-        {renderButtons()}
+        </ConfigProvider>
       </View>
-    </Popup>
+
+      {/* 底部按钮 */}
+      {renderButtons()}
+    </View>
   );
 };
 

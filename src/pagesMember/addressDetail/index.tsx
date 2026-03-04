@@ -261,7 +261,7 @@ export default () => {
   return (
     <TRLayout
       navBar={{
-        title: '修改地址信息',
+        title: currentAddressId ? '修改地址信息' : '添加地址',
       }}
       body={{
         customRender: (

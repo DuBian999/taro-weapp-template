@@ -25,6 +25,7 @@
       border-radius: 12rpx;
       padding: 4rpx 20rpx;
       color: #fff;
+      z-index: 100;
     }
   }
 
@@ -233,5 +234,11 @@
       background-color: var(--primary);
       margin-left: 20rpx;
     }
+  }
+}
+
+html {
+  :global(.nut-image) {
+    height: 100% !important;
   }
 }

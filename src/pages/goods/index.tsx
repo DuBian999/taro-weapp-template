@@ -1,16 +1,18 @@
+import { postMemberCartAPI } from '@/apis/cart';
 import { getGoodsByIdAPI } from '@/apis/goods';
 import TRLayout from '@/components/TRLayout';
+import type { SkuPopupLocaldata } from '@/components/TRSku';
+import SkuPanel from '@/components/TRSku';
 import type { GoodsResult } from '@/types/goods';
 import { mergeClassNames } from '@/utils/common';
 import { IconFont } from '@nutui/icons-react-taro';
 import { Button, Image, Popup, Swiper } from '@nutui/nutui-react-taro';
 import { ScrollView, Text, View } from '@tarojs/components';
-import { navigateTo, previewImage, pxTransform, useLoad, useRouter } from '@tarojs/taro';
+import { navigateTo, previewImage, pxTransform, showToast, useLoad, useRouter } from '@tarojs/taro';
 import { useState } from 'react';
 import AddressPanel from './components/AddressPanel';
 import ServicePanel from './components/ServicePanel';
 import styles from './index.module.scss';
-import SkuPanel from './components/SkuPanel';
 
 type PopupName = 'address' | 'service' | 'sku';
 
@@ -38,11 +40,35 @@ export default () => {
 
   const [popupName, setPopupName] = useState<PopupName | null>(null);
 
+  // SKU 弹出层数据
+  const [localdata, setLocaldata] = useState<SkuPopupLocaldata | null>(null);
+
+  // 选择的规格名字
+  const [selectArr, setSelectArr] = useState<string[]>([]);
+
+  // 选中的商品信息
+  const [productInfo, setProductInfo] = useState<{ _id: string; buy_num: number }>({ _id: '', buy_num: 0 });
+
   // 获取商品详情数据
   const getGoodsByIdData = async (goodsId: string) => {
     try {
       const res = await getGoodsByIdAPI(goodsId);
       setGoods(res.result);
+      setLocaldata({
+        _id: res.result.id,
+        name: res.result.name,
+        goods_thumb: res.result.mainPictures[0],
+        spec_list: res.result.specs.map((v) => ({ name: v.name, list: v.values })),
+        sku_list: res.result.skus.map((v) => ({
+          _id: v.id,
+          goods_id: res.result.id,
+          goods_name: res.result.name,
+          image: v.picture,
+          price: v.price * 100, // 注意：需要乘以 100
+          stock: v.inventory,
+          sku_name_arr: v.specs.map((vv) => vv.valueName),
+        })),
+      });
     } catch (error) {
       console.error('获取商品详情失败', error);
     }
@@ -75,6 +101,31 @@ export default () => {
       ...v,
     });
     closePopup();
+  };
+
+  // 处理操作按钮点击事件
+  const handleActionBtnClick = async (action: 'addCart' | 'buyNow') => {
+    //  if (!selectedAddress.id) {
+    //   showToast({
+    //     title: '请选择地址',
+    //     icon: 'none',
+    //   });
+    //   return;
+    // }
+    if (action === 'addCart') {
+      if (!selectArr.length) {
+        showToast({
+          title: '请选择规格',
+          icon: 'none',
+        });
+        return;
+      }
+      // 加入购物车逻辑
+      await postMemberCartAPI({ skuId: productInfo._id, count: productInfo.buy_num });
+      showToast({ title: '添加成功' });
+    } else if (action === 'buyNow') {
+      navigateTo({ url: `/pagesOrder/create/create?skuId=${productInfo._id}&count=${productInfo.buy_num}` });
+    }
   };
 
   // 页面加载
@@ -115,12 +166,17 @@ export default () => {
                       height={pxTransform(750)}
                     >
                       {goods?.mainPictures?.map((item) => (
-                        <Swiper.Item key={item}>
-                          <Image
-                            onClick={() => handleImagePreview(item)}
-                            src={item}
-                            mode='aspectFill'
-                          />
+                        <Swiper.Item
+                          key={item}
+                          style={{ width: '100%', height: '100%' }}
+                        >
+                          {item && (
+                            <Image
+                              onClick={() => handleImagePreview(item)}
+                              src={item}
+                              mode='aspectFill'
+                            />
+                          )}
                         </Swiper.Item>
                       ))}
                     </Swiper>
@@ -143,7 +199,7 @@ export default () => {
                       className={mergeClassNames(styles['item'], styles['arrow'])}
                     >
                       <Text className={styles['label']}>选择</Text>
-                      <Text className={styles['text']}>请选择商品规格</Text>
+                      <Text className={styles['text']}>{selectArr.join(' ') || '请选择商品规格'}</Text>
                     </View>
                     <View
                       onClick={() => openPopup('address')}
@@ -269,8 +325,18 @@ export default () => {
                   </View>
                 </View>
                 <View className={styles['bar-buttons']}>
-                  <View className={mergeClassNames(styles['singgle-btn'], styles['addcart'])}>加入购物车</View>
-                  <View className={mergeClassNames(styles['singgle-btn'], styles['payment'])}>立即购买</View>
+                  <View
+                    className={mergeClassNames(styles['singgle-btn'], styles['addcart'])}
+                    onClick={() => handleActionBtnClick('addCart')}
+                  >
+                    加入购物车
+                  </View>
+                  <View
+                    className={mergeClassNames(styles['singgle-btn'], styles['payment'])}
+                    onClick={() => handleActionBtnClick('buyNow')}
+                  >
+                    立即购买
+                  </View>
                 </View>
               </View>
             </>
@@ -290,7 +356,20 @@ export default () => {
         title={titleMap[popupName!]}
         destroyOnClose
       >
-        {popupName === 'sku' && <SkuPanel />}
+        {popupName === 'sku' && (
+          <SkuPanel
+            onClose={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+            selectArr={selectArr}
+            onAddCart={(v) => {
+              setSelectArr(v.sku_name_arr);
+              setProductInfo({ _id: v._id, buy_num: v.buy_num });
+              setPopupVisible(false);
+            }}
+            localdata={localdata!}
+          />
+        )}
         {popupName === 'address' && (
           <AddressPanel
             onChange={(v) => handleSelectAddress(v)}
