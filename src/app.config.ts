@@ -44,6 +44,10 @@ export default defineAppConfig({
       root: 'pagesMember',
       pages: ['settings/index', 'profile/index', 'address/index', 'addressDetail/index'],
     },
+    {
+      root: 'pagesOrder',
+      pages: ['create/index', 'detail/index', 'payment/index', 'list/index'],
+    },
   ],
   window: {
     backgroundTextStyle: 'light',

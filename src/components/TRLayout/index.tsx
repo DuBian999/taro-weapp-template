@@ -36,6 +36,7 @@ const TRLayout: React.FC<LayoutProps> = ({ navBar, header, body, footer }) => {
       className={style['tr-layout']}
       id='tr-layout'
     >
+      <SafeArea position='top' />
       {showNavBar && (
         <NavBar
           back={hideArrow ? undefined : <ArrowLeft />}

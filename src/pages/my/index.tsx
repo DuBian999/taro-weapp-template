@@ -9,11 +9,11 @@ import style from './index.module.scss';
 
 // 订单选项
 const orderTypes = [
-  { type: 1, text: '待付款', icon: 'icon-currency' },
-  { type: 2, text: '待发货', icon: 'icon-gift' },
-  { type: 3, text: '待收货', icon: 'icon-check' },
-  { type: 4, text: '待评价', icon: 'icon-comment' },
-  { type: 5, text: '售后', icon: 'icon-handset' },
+  { type: '1', text: '待付款', icon: 'icon-currency' },
+  { type: '2', text: '待发货', icon: 'icon-gift' },
+  { type: '3', text: '待收货', icon: 'icon-check' },
+  { type: '4', text: '待评价', icon: 'icon-comment' },
+  { type: '5', text: '售后', icon: 'icon-handset' },
 ];
 
 export default () => {
@@ -121,7 +121,7 @@ export default () => {
                       <Navigator
                         key={item.type}
                         className={mergeClassNames(style['navigator'], item.icon)}
-                        url={`/pagesOrder/list/list?type=${item.type}`}
+                        url={`/pagesOrder/list/index?type=${item.type}`}
                         hoverClass='none'
                       >
                         {item.text}
@@ -134,7 +134,7 @@ export default () => {
           ),
           style: {
             backgroundColor: 'var(--primary)',
-            padding: '0  40rpx 20rpx 40rpx',
+            padding: `0 ${pxTransform(40)} ${pxTransform(20)} ${pxTransform(40)}`,
           },
         }}
         body={{

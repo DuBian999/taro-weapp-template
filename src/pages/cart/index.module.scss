@@ -134,16 +134,16 @@
     margin-right: 8rpx;
     margin-left: 32rpx;
     color: #444;
-    font-size: 14px;
+    font-size: 28rpx;
   }
 
   .amount {
-    font-size: 20px;
+    font-size: 40rpx;
     color: #cf4444;
 
     &::before {
       content: '￥';
-      font-size: 12px;
+      font-size: 24rpx;
     }
   }
 

@@ -5,7 +5,7 @@ import type { CartItem } from '@/types/cart';
 import { mergeClassNames } from '@/utils/common';
 import { Button, Checkbox, Empty, InputNumber, SimpleValue, Swipe, Tag } from '@nutui/nutui-react-taro';
 import { Image, Navigator, ScrollView, Text, View } from '@tarojs/components';
-import Taro, { useDidShow } from '@tarojs/taro';
+import Taro, { pxTransform, useDidShow } from '@tarojs/taro';
 import { useMemo, useState } from 'react';
 import style from './index.module.scss';
 
@@ -99,7 +99,7 @@ const CartPage: React.FC = () => {
       return;
     }
     // 跳转到结算页
-    Taro.navigateTo({ url: '/pagesOrder/create/create' });
+    Taro.navigateTo({ url: '/pagesOrder/create/index' });
   };
 
   const gotoLogin: any = () => {
@@ -245,7 +245,7 @@ const CartPage: React.FC = () => {
           </>
         ),
         style: {
-          padding: '0 40rpx',
+          padding: `0 ${pxTransform(40)}`,
         },
       }}
     />

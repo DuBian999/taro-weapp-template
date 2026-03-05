@@ -105,26 +105,19 @@ export default () => {
 
   // 处理操作按钮点击事件
   const handleActionBtnClick = async (action: 'addCart' | 'buyNow') => {
-    //  if (!selectedAddress.id) {
-    //   showToast({
-    //     title: '请选择地址',
-    //     icon: 'none',
-    //   });
-    //   return;
-    // }
+    if (!selectArr.length) {
+      showToast({
+        title: '请选择规格',
+        icon: 'none',
+      });
+      return;
+    }
     if (action === 'addCart') {
-      if (!selectArr.length) {
-        showToast({
-          title: '请选择规格',
-          icon: 'none',
-        });
-        return;
-      }
       // 加入购物车逻辑
       await postMemberCartAPI({ skuId: productInfo._id, count: productInfo.buy_num });
       showToast({ title: '添加成功' });
     } else if (action === 'buyNow') {
-      navigateTo({ url: `/pagesOrder/create/create?skuId=${productInfo._id}&count=${productInfo.buy_num}` });
+      navigateTo({ url: `/pagesOrder/create/index?skuId=${productInfo._id}&count=${productInfo.buy_num}` });
     }
   };
 
@@ -175,6 +168,7 @@ export default () => {
                               onClick={() => handleImagePreview(item)}
                               src={item}
                               mode='aspectFill'
+                              style={{ height: pxTransform(750) }}
                             />
                           )}
                         </Swiper.Item>
