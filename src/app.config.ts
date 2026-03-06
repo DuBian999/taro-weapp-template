@@ -39,16 +39,26 @@ export default defineAppConfig({
     'pages/login/index',
     'pages/goods/index',
   ],
+  // 分包
   subPackages: [
     {
       root: 'pagesMember',
+      name: 'pagesMember',
       pages: ['settings/index', 'profile/index', 'address/index', 'addressDetail/index'],
     },
     {
       root: 'pagesOrder',
+      name: 'pagesOrder',
       pages: ['create/index', 'detail/index', 'payment/index', 'list/index'],
     },
   ],
+  // 分包预下载规则
+  preloadRule: {
+    'pages/my/index': {
+      network: 'all',
+      packages: ['pagesMember', 'pagesOrder'],
+    },
+  },
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
