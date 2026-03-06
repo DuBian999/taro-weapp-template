@@ -24,20 +24,20 @@
 
 <table>
   <tr>
-    <td><img width="100" src="./README/images/img_1.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_2.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_3.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_4.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_5.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_6.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_1.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_2.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_3.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_4.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_5.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_6.jpg" alt=""></td>
   </tr>
   <tr>
-    <td><img width="100" src="./README/images/img_7.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_8.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_9.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_10.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_11.jpg" alt=""></td>
-    <td><img width="100" src="./README/images/img_12.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_7.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_8.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_9.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_10.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_11.jpg" alt=""></td>
+    <td><img width="100" src="./README/img_12.jpg" alt=""></td>
   </tr>
 </table>
 
