@@ -33,6 +33,9 @@ export default () => {
               </Col>
             </Row>
           ),
+          style: {
+            padding: '20px',
+          },
         }}
         navBar={{}}
         header={{}}
