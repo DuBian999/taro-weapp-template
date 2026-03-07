@@ -1,32 +1,58 @@
-# ... 前置步骤不变
+name: Deploy H5
+on:
+  push:
+    branches: [main]
 
-- name: Build H5
-  run: pnpm run build:h5
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-# 将构建产物推送到 h5 分支（只包含 production 下的文件）
-- name: Push build artifacts to h5 branch
-  run: |
-    git config user.name github-actions
-    git config user.email github-actions@github.com
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-    # 创建临时目录并将构建产物复制进去（注意路径）
-    mkdir -p ../h5-branch
-    cp -r dist/h5/production/. ../h5-branch/
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-    cd ../h5-branch
-    git init
-    git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-    git checkout -b h5
-    git add .
-    git commit -m "Deploy H5 from main commit ${{ github.sha }} [skip ci]"
-    git push -f origin h5
+      - name: Install dependencies
+        run: pnpm install
 
-# 上传构建产物（指向正确的子目录）
-- name: Upload artifact
-  uses: actions/upload-pages-artifact@v3
-  with:
-    path: 'dist/h5/production' # 修改为此路径
+      - name: Build H5
+        run: pnpm run build:h5
 
-- name: Deploy to GitHub Pages
-  id: deployment
-  uses: actions/deploy-pages@v4
+      - name: Push build artifacts to h5 branch
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          # 创建临时目录并将构建产物复制进去
+          mkdir -p ../h5-branch
+          cp -r dist/h5/production/. ../h5-branch/
+
+          cd ../h5-branch
+          git init
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git checkout -b h5
+          git add .
+          git commit -m "Deploy H5 from main commit ${{ github.sha }} [skip ci]"
+          git push -f origin h5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist/h5/production'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
