@@ -109,6 +109,23 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin);
+        chain.optimization.splitChunks({
+          chunks: 'all',
+          cacheGroups: {
+            vendors: {
+              name: 'vendors',
+              test: /[\\/]node_modules[\\/]/,
+              priority: 10,
+              chunks: 'initial',
+            },
+            commons: {
+              name: 'commons',
+              minChunks: 2, // 被至少两个页面引用
+              priority: 5,
+              reuseExistingChunk: true,
+            },
+          },
+        });
       },
     },
     rn: {
