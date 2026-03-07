@@ -1,42 +1,57 @@
-name: Deploy H5
+name: Deploy H5 to GitHub Pages
+
 on:
   push:
-    branches: [main]
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: write # 用于向 h5 分支推送代码
+  pages: write # 用于部署到 GitHub Pages
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
+      # 安装 pnpm（根据项目需要可调整版本）
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
 
+      # 设置 Node.js 环境并开启缓存
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm install
 
+      # 执行构建命令，输出目录为 dist/h5/production
       - name: Build H5
         run: pnpm run build:h5
 
+      # 将构建产物推送到 h5 分支
       - name: Push build artifacts to h5 branch
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          # 配置全局 git 用户信息（避免提交时身份未知）
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
-          # 创建临时目录并将构建产物复制进去
+          # 创建临时目录并复制构建产物（确保只有 production 下的文件）
           mkdir -p ../h5-branch
           cp -r dist/h5/production/. ../h5-branch/
 
@@ -45,14 +60,17 @@ jobs:
           git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git checkout -b h5
           git add .
+          # 提交时跳过 CI 触发器
           git commit -m "Deploy H5 from main commit ${{ github.sha }} [skip ci]"
           git push -f origin h5
 
+      # 上传构建产物（仅包含 production 目录）用于 Pages 部署
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'dist/h5/production'
 
+      # 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
