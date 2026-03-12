@@ -9,7 +9,7 @@
     <td>小程序</td>
   </tr>
   <tr>
-    <td><img width="100" src="./README/H5" alt=""></td>
+    <td><img width="200" src="./README/H5.png" alt="" ></td>
     <td>因小程序发布需要符合平台规范 目前需打包后进入模拟器预览</td>
   </tr>
 </table>
